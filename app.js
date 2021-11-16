@@ -4,11 +4,16 @@ var express                 = require("express"),
     bodyParser              = require("body-parser"),
     User                    = require("./models/user"),
     LocalStrategy           = require("passport-local"),
-    passportLocalMongoose   = require("passport-local-mongoose")
+    passportLocalMongoose   = require("passport-local-mongoose");
+
+
+    require('dotenv').config({ path: '.env' });
     
 var app = express();
 
-mongoose.connect("mongodb://localhost/chatdb", {
+
+
+mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
