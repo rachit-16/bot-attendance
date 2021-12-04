@@ -1,5 +1,6 @@
 #bot-attendance
 
+#contributor
 ##simar
 ##abhinav
 ##ritik
