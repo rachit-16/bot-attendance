@@ -38,11 +38,11 @@ passport.deserializeUser(User.deserializeUser());
 
 
 app.get("/",function(req,res){
-    res.render("signup");
+    res.render("SignupPage/signup");
 });
 
 app.get("/secret",isLoggedIn, function(req, res){
-    res.render("secret");
+    res.render("/Dashboard/Dashboard");
 });
 
 // Auth Routes
@@ -64,7 +64,7 @@ User.register(new User({username:req.body.username}),req.body.password, function
 // Login Routes
 
 app.get("/login", function(req, res){
-    res.render("login");
+    res.render("LoginPage/login");
 })
 
 // middleware
