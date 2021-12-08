@@ -41,52 +41,59 @@ app.get("/",function(req,res){
     res.render("SignupPage/signup");
 });
 
-app.get("/secret",isLoggedIn, function(req, res){
-    res.render("/Dashboard/Dashboard");
-});
-
-// Auth Routes
-
-
-//handling user sign up
-app.post("/register", function(req, res){
-User.register(new User({username:req.body.username}),req.body.password, function(err, user){
-       if(err){
-            console.log(err);
-            return res.render('register');
-        } //user stragety
-        passport.authenticate("local")(req, res, function(){
-            res.redirect("/secret"); //once the user sign up
-       }); 
-    });
-});
-
-// Login Routes
-
-app.get("/login", function(req, res){
-    res.render("LoginPage/login");
-})
-
-// middleware
-app.post("/login", passport.authenticate("local",{
-    successRedirect:"/secret",
-    failureRedirect:"/login"
-}),function(req, res){
-    res.send("User is "+ req.user.id);
-});
-
-app.get("/logout", function(req, res){
-    req.logout();
-    res.redirect("/");
-});
-
-
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
-    res.redirect("/login");
+    res.redirect("/api/users/login");
 }
+
+app.get("/secret",isLoggedIn, function(req, res){
+    res.render("Dashboard/Dashboard");
+});
+
+// // Auth Routes
+app.use('/api/users', require('./routes/users'));
+
+// //handling user sign up
+// app.post("/register", function(req, res){
+// User.register(new User({username:req.body.username}),req.body.password, function(err, user){
+//        if(err){
+//             console.log(err);
+//             return res.render('register');
+//         } //user stragety
+//         passport.authenticate("local")(req, res, function(){
+//             res.redirect("/secret"); //once the user sign up
+//        }); 
+//     });
+// });
+
+// // Login Routes
+
+// app.get("/login", function(req, res){
+//     res.render("LoginPage/login");
+// })
+
+// // middleware
+// app.post("/login", passport.authenticate("local",{
+//     successRedirect:"/secret",
+//     failureRedirect:"/login"
+// }),function(req, res){
+//     res.send("User is "+ req.user.id);
+// });
+
+// app.get("/logout", function(req, res){
+//     req.logout();
+//     res.redirect("/");
+// });
+
+
+// function isLoggedIn(req, res, next){
+//     if(req.isAuthenticated()){
+//         return next();
+//     }
+//     res.redirect("/login");
+// }
 
 app.listen(3000, function(){
     console.log("connect!");
