@@ -1,103 +1,71 @@
-var express = require('express'),
-  mongoose = require('mongoose'),
-  passport = require('passport'),
-  bodyParser = require('body-parser'),
-  User = require('./models/user'),
-  LocalStrategy = require('passport-local'),
-  passportLocalMongoose = require('passport-local-mongoose')
-
 require('dotenv').config({ path: '.env' })
+const express = require('express')
+const expressSession = require('express-session')
+const expressLayouts = require('express-ejs-layouts')
+const mongoose = require('mongoose')
+const passport = require('passport')
+const passportLocal = require('passport-local')
 
-var app = express()
+const User = require('./models/user')
+const authRoutes = require('./routes/auth')
+const userRoutes = require('./routes/user')
+const meetingRoutes = require('./routes/meeting')
+const { isLoggedIn } = require('./middlewares/auth')
 
-mongoose.connect(process.env.MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-})
+const app = express()
+const LocalStrategy = passportLocal.Strategy
+const PORT = process.env.PORT
+const MONGODB_URL =
+  'mongodb+srv://rachit:rachit@cluster0.ciwda.mongodb.net/bot-attendance?retryWrites=true&w=majority'
+// const MONGODB_URL = process.env.MONGO_URL
 
-app.use(bodyParser.urlencoded({ extended: true }))
+// express server config
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(
-  require('express-session')({
+  expressSession({
     secret: 'Rusty is the best og in the worldpassport ',
     resave: false,
     saveUninitialized: false,
   })
 )
 
+// ejs config
 app.set('view engine', 'ejs')
-//
+app.use(expressLayouts)
+app.set('layout', 'Layout/layout')
+
+// passport config
 app.use(passport.initialize())
 app.use(passport.session())
-//
 passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
-app.get('/', function (req, res) {
-  res.render('SignupPage/signup')
+// mongoose config
+mongoose
+  .connect(MONGODB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
+  .then(() => {
+    console.log('db connected!')
+  })
+  .catch((error) => {
+    console.error(error)
+  })
+
+// routes
+app.use('/api/auth', authRoutes)
+app.use('/api/meetings', isLoggedIn, meetingRoutes)
+app.use('/api/user', isLoggedIn, userRoutes)
+
+app.get('/', (req, res) => {
+  res.redirect('/api/auth')
 })
 
-app.get('/about', (req, res) => {
-  res.render('AboutPage/About')
+app.listen(PORT, () => {
+  console.log(`Server is up on port ${PORT}`)
 })
-
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    res.redirect("/api/users/login");
-}
-
-app.get("/secret",isLoggedIn, function(req, res){
-    res.render("Dashboard/Dashboard");
-});
-
-// // Auth Routes
-app.use('/api/users', require('./routes/users'));
-
-// //handling user sign up
-// app.post("/register", function(req, res){
-// User.register(new User({username:req.body.username}),req.body.password, function(err, user){
-//        if(err){
-//             console.log(err);
-//             return res.render('register');
-//         } //user stragety
-//         passport.authenticate("local")(req, res, function(){
-//             res.redirect("/secret"); //once the user sign up
-//        }); 
-//     });
-// });
-
-// // Login Routes
-
-// app.get("/login", function(req, res){
-//     res.render("LoginPage/login");
-// })
-
-// // middleware
-// app.post("/login", passport.authenticate("local",{
-//     successRedirect:"/secret",
-//     failureRedirect:"/login"
-// }),function(req, res){
-//     res.send("User is "+ req.user.id);
-// });
-
-// app.get("/logout", function(req, res){
-//     req.logout();
-//     res.redirect("/");
-// });
-
-
-// function isLoggedIn(req, res, next){
-//     if(req.isAuthenticated()){
-//         return next();
-//     }
-//     res.redirect("/login");
-// }
-
-app.listen(3000, function(){
-    console.log("connect!");
-});
-
