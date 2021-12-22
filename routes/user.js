@@ -23,6 +23,8 @@ router.get('/profile', async (req, res) => {
   }
 })
 
+// receive attendance
+
 // delete user
 router.delete('/delete', async (req, res) => {
   try {

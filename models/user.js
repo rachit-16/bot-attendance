@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const passportLocalMongoose = require('passport-local-mongoose')
 const Meeting = require('./meeting')
+const Bot = require('./bot')
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -33,10 +34,17 @@ userSchema.virtual('userMeetings', {
   foreignField: 'host',
 })
 
-// delete all meetings of a user, if user is removed
+userSchema.virtual('userBots', {
+  ref: 'Bot',
+  localField: '_id',
+  foreignField: 'owner',
+})
+
+// delete all meetings and bots of a user, if user is removed
 userSchema.pre('remove', async function (next) {
   const user = this
   await Meeting.deleteMany({ host: user._id })
+  await Bot.deleteMany({ owner: user._id })
   next()
 })
 
