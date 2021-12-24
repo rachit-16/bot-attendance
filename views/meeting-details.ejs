@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/public/css/meeting-details.css" />
+    <title>Meeting Details</title>
+</head>
+
+<body>
+
+    <div style="display: flex;">
+
+        <!-- SIDEBAR -->
+
+        <%- include("./partials/sidebar.ejs"); %>
+
+        <!-- MEETING DETAILS -->
+
+        <div class="meeting-details">
+
+            <h2>Meeting Details</h2>
+
+            <!-- PARAMETER 1: MEETING LINK -->
+
+            <div class="meeting-parameters">
+
+                <div class="parameter-icons">
+                    <i class="bi bi-link-45deg"></i>
+                </div>
+
+                <div class="parameter-details">
+                    <h5>Meet Link</h5>
+                    <p>https://meet.google.com/hhh-qgkv-dsx</p>
+                </div>
+
+            </div>
+
+            <!-- PARAMETER 2: NO. OF PARTICIPANTS -->
+
+            <div class="meeting-parameters">
+
+                <div class="parameter-icons">
+                    <i class="bi bi-person"></i>
+                </div>
+
+                <div class="parameter-details">
+                    <h5>Participants</h5>
+                    <p>10</p>
+                </div>
+
+            </div>
+
+            <!-- PARAMETER 3: MEETING DATE -->
+
+            <div class="meeting-parameters">
+
+                <div class="parameter-icons">
+                    <i class="bi bi-calendar3"></i>
+                </div>
+
+                <div class="parameter-details">
+                    <h5>Date</h5>
+                    <p>13/12/2020</p>
+                </div>
+
+            </div>
+
+            <!-- PARAMETER 4: MEETING TIME -->
+
+            <div class="meeting-parameters">
+
+                <div class="parameter-icons">
+                    <i class="bi bi-clock"></i>
+                </div>
+
+                <div class="parameter-details">
+                    <h5>Time</h5>
+                    <p>10:20:50 PM</p>
+                </div>
+
+            </div>
+
+            <!-- PARAMETER 5: MEETING CREATOR -->
+
+            <div class="meeting-parameters">
+
+                <div class="parameter-icons">
+                    <i class="bi bi-person-check"></i>
+                </div>
+
+                <div class="parameter-details">
+                    <h5>Creator</h5>
+                    <p>Anuj</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- PARTICIPANTS TABLE -->
+
+        <div class="wrapper">
+
+            <div class="table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Present</th>
+                            <th>Absent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Anuj Pawar</td>
+                            <td><input class="checkmark" type="radio" name="student1"></td>
+                            <td><input class="checkmark" type="radio" name="student1"></td>
+                        </tr>
+                        <tr>
+                            <td>Simarpreet Singh</td>
+                            <td><input class="checkmark" type="radio" name="student2"></td>
+                            <td><input class="checkmark" type="radio" name="student2"></td>
+                        </tr>
+                        <tr>
+                            <td>Ritik Gupta</td>
+                            <td><input class="checkmark" type="radio" name="student3"></td>
+                            <td><input class="checkmark" type="radio" name="student3"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="btn">New Participant</button>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
