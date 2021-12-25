@@ -1,11 +1,44 @@
-<h1> Sign Up Form </h1>
-
-<form method="POST" action="/register">
-    <input type="text" name="username" placeholder="username">
-    <input type="password" name="password" placeholder="password">
-    <button> Submit </button>
-</form>
-
-<li><a href="/">Sign Up</a></li>
-<li><a href="/logout">Logout!</a></li>
-<li><a href="/login">Login!</a></li>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/public/css/signup.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="Sign_Up_Form">
+           <div class="details">
+                <h2>Sign Up</h2>
+                <br>
+                <h4 style="font-weight:bold;">Create a new account.</h4>
+                <br>
+                <input type="text" id="UserName" placeholder="Name" >
+                <br>
+                <input type="email" id="Email" placeholder="Email">
+                <br>
+                <input type="text" id="UserName" placeholder="Username">
+                <br>
+                <input type="password" id="Password" placeholder="Password">
+                <br>
+                <input type="password" id="Confirm_Password" placeholder="Confirm Password">
+                <br>
+                <button id="login">Login</button>
+                <br>
+                <div class="footer">
+                    <div id="already_have_an_account">
+                        Already have an account?   
+                    </div>
+                    <div id="sign_in">Sign In</div>
+                </div>
+            </div>
+        </div>
+        <div class="image">
+             <div class="image_heading">
+            </div> 
+    </div>
+    </div>
+</body>
+</html>
