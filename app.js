@@ -1,93 +1,102 @@
-var express                 = require("express"),
-    mongoose                = require("mongoose"),
-    passport                = require("passport"),
-    bodyParser              = require("body-parser"),
-    User                    = require("./models/user"),
-    LocalStrategy           = require("passport-local"),
-    passportLocalMongoose   = require("passport-local-mongoose");
+require('dotenv').config({ path: '.env' })
+const express = require('express')
+const expressSession = require('express-session')
+const expressLayouts = require('express-ejs-layouts')
+const mongoose = require('mongoose')
+const passport = require('passport')
+const passportLocal = require('passport-local')
 
+const User = require('./models/user')
+const Meeting = require('./models/meeting')
+const authRoutes = require('./routes/auth')
+const userRoutes = require('./routes/user')
+const meetingRoutes = require('./routes/meeting')
+const botRoutes = require('./routes/bot')
+const { isLoggedIn } = require('./middlewares/auth')
 
-    require('dotenv').config({ path: '.env' });
-    
-var app = express();
+const app = express()
+const LocalStrategy = passportLocal.Strategy
+const MONGODB_URL = process.env.MONGO_URL
+const PORT = process.env.PORT
 
-
-
-mongoose.connect(process.env.MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false
-});
-
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(require("express-session")({
-    secret:"Rusty is the best og in the worldpassport ",
+// express server config
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(
+  expressSession({
+    secret: 'Rusty is the best og in the worldpassport ',
     resave: false,
-    saveUninitialized: false
-}));
+    saveUninitialized: false,
+  })
+)
 
-app.set('view engine','ejs');
-//
-app.use(passport.initialize());
-app.use(passport.session());
-// 
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// ejs config
+app.set('view engine', 'ejs')
+app.use(expressLayouts)
+app.set('layout', 'Layout/layout')
 
+// passport config
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
 
-app.get("/",function(req,res){
-    res.render("signup");
-});
+// mongoose config
+mongoose
+  .connect(MONGODB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
+  .then(() => {
+    console.log('db connected!')
+  })
+  .catch((error) => {
+    console.error(error)
+  })
 
-app.get("/secret",isLoggedIn, function(req, res){
-    res.render("secret");
-});
+// routes
+app.use('/api/auth', authRoutes)
+app.use('/api/user', isLoggedIn, userRoutes)
+app.use('/api/user/meetings', isLoggedIn, meetingRoutes)
+app.use('/api/user/bots', isLoggedIn, botRoutes)
 
-// Auth Routes
-
-
-//handling user sign up
-app.post("/register", function(req, res){
-User.register(new User({username:req.body.username}),req.body.password, function(err, user){
-       if(err){
-            console.log(err);
-            return res.render('register');
-        } //user stragety
-        passport.authenticate("local")(req, res, function(){
-            res.redirect("/secret"); //once the user sign up
-       }); 
-    });
-});
-
-// Login Routes
-
-app.get("/login", function(req, res){
-    res.render("login");
+app.get('/', (req, res) => {
+  res.redirect('/api/auth/login')
 })
 
-// middleware
-app.post("/login", passport.authenticate("local",{
-    successRedirect:"/secret",
-    failureRedirect:"/login"
-}),function(req, res){
-    res.send("User is "+ req.user.id);
-});
-
-app.get("/logout", function(req, res){
-    req.logout();
-    res.redirect("/");
-});
-
-
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()){
-        return next();
+app.post('/attendance/:botId', async (req, res) => {
+  console.info('GOT ATTENDANCE:\n', req.body)
+  const { taker, date, time, data, url } = req.body
+  const { botId } = req.params
+  const attendees = data.split('@').map((attendee) => {
+    return {
+      name: attendee,
     }
-    res.redirect("/login");
-}
+  })
+  attendees.pop()
 
-app.listen(3000, function(){
-    console.log("connect!");
-});
+  try {
+    const newAttendance = new Meeting({
+      link: url,
+      participantsCount: attendees.length,
+      date,
+      time,
+      host: new mongoose.Types.ObjectId(), // change this to get data from URL
+      hostName: taker,
+      participants: attendees,
+    })
+
+    console.log(newAttendance)
+    await newAttendance.save()
+    res.status(201).send(newAttendance)
+  } catch (error) {
+    res.status(400).send(error)
+  }
+})
+
+app.listen(PORT, () => {
+  console.log(`Server is up on port ${PORT}`)
+})

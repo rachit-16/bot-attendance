@@ -1,0 +1,187 @@
+/*----- ROOT CSS -----*/
+
+* {
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Calibri', 'Trebuchet MS', sans-serif;
+}
+
+/*----- DASHBOARD -----*/
+
+.dashboard {
+    height: 100vh;
+    width: 80vw;
+    float: right;
+}
+
+/*----- DASHBOARD HEADER -----*/
+
+.header {
+    display: flex;
+    background-image: url("/public/img/header-illust.svg"), url("/public/img/header-vector2.svg");
+    background-repeat: no-repeat, no-repeat;
+    background-position: top left, bottom right;
+    margin: 2rem auto;
+    height: 20%;
+    width: 70%;
+}
+
+#header-box {
+    width: 95%;
+    height: 90%;
+    margin: auto;
+    background: linear-gradient(268.7deg, rgba(191, 225, 255, 0.6) 0.05%, rgba(238, 239, 255, 0.6) 99.95%);
+    backdrop-filter: blur(3px);
+    border-radius: 41.9417px 0px;
+}
+
+#header-box h2, p {
+    position: relative;
+    top: 30%;
+    left: 5%;
+}
+
+#illustration {
+    height: 8rem;
+    float: right;
+    position: relative;
+    top: -4rem;
+    right: 7rem;
+    z-index: -1;
+}
+
+/*----- TABLE, ADD NEW BUTTON, PAGINATION DIV -----*/
+
+.wrapper {
+    width: 90%;
+    margin: auto;
+}
+
+.wrapper h2 {
+    margin-bottom: 1rem;
+}
+
+/*----- TABLE -----*/
+
+.table {
+    border-radius: 10px;
+    border: 0.2px solid #e8e8e8;
+    margin-bottom: 1rem;
+}
+
+.table table {
+    border-spacing: 0px;
+    width: 100%;
+    text-align: left;
+    font-weight: 300;
+}
+
+.table thead {
+    background-color: #D8EDFF;
+}
+
+table th:first-child {
+    border-radius: 10px 0 0 0;
+}
+
+table th:last-child {
+    border-radius: 0 10px 0 0;
+}
+
+.table tbody td {
+    border-top: 0.2px solid #e8e8e8;
+}
+
+.table th, td {
+    padding: 0.8rem 1rem;
+}
+
+/*----- ADD NEW BUTTON -----*/
+
+.btn {
+    padding: 0.5rem 2rem;
+    background-color: #D8EDFF;
+    color: #0099FF;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: 0.2s all;
+}
+
+.btn:hover {
+    background-color: #0099FF;
+    color: #fff;
+}
+
+/*----- PAGINATION -----*/
+
+.pagination {
+    float: right;
+    display: inline;
+}
+
+.pagination ul {
+    font-size: 1.2rem;
+    display: inline-flex;
+    list-style: none;
+}
+
+.pagination ul li {
+    text-align: center;
+    font-weight: 700;
+    width: 1.5rem;
+}
+
+.pagination ul li a {
+    text-decoration: none;
+    color: #000;
+    padding: 0.2rem 0.5rem;
+    transition: 0.2s all;
+}
+
+.pagination ul li.active, .pagination ul li a:hover {
+    color: #0099FF;
+    background-color: #D8EDFF;
+}
+
+.pagination ul li i {
+    width: 2rem;
+}
+
+/*----- ICONS -----*/
+
+.bi{
+    color: #666666;
+}
+
+/* 
+/*----- RESPONSIVNESS -----*
+
+@media only screen and (max-width: 1300px){
+
+    #illustration{
+        right: 2rem;
+    }
+}
+
+@media only screen and (max-width: 1000px){
+   
+    .dashboard {
+        width: 95vw;
+    }    
+
+}
+
+@media only screen and (max-width: 900px){
+
+    .pagination ul li {
+        width: 3rem;
+    }
+    .bi{
+        padding: 1rem 2rem;
+    }
+
+}
+ */
