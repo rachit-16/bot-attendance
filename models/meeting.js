@@ -44,7 +44,7 @@ const MeetingSchema = new mongoose.Schema({
       },
       isPresent: {
         type: Boolean,
-        default: false,
+        default: true,
       },
     },
   ],

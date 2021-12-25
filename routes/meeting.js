@@ -90,7 +90,7 @@ router.post('/edit/:meetId', async (req, res) => {
 // add a participant to a meeting
 router.post('/:meetId/addParticipant', async (req, res) => {
   const { meetId } = req.params
-  const { name, isPresent = false } = req.body
+  const { name, isPresent = true } = req.body
 
   try {
     const meeting = await Meeting.findById(meetId)

@@ -6,25 +6,20 @@ const { isLoggedIn, isNotLoggedIn } = require('../middlewares/auth')
 
 const router = express.Router()
 
-router.get('/', isNotLoggedIn, (req, res) => {
-  res.send('home url')
-  // res.redirect('/api/auth/login')
-})
-
 router.get('/login', isNotLoggedIn, (req, res) => {
-  res.send('login page')
-  // res.render('LoginPage/login')
+  // res.send('login page')
+  res.render('LoginPage/login')
 })
 
 router.get('/signup', isNotLoggedIn, (req, res) => {
-  res.send('signup page')
-  // res.render('SignupPage/signup')
+  // res.send('signup page')
+  res.render('SignupPage/signup')
 })
 
 router.get('/logout', isLoggedIn, (req, res) => {
   req.logout()
-  res.send('logged out')
-  // res.redirect('/api/auth/login')
+  // res.send('logged out')
+  res.redirect('/api/auth/login')
 })
 
 //handling user login
@@ -33,10 +28,11 @@ router.post(
   isNotLoggedIn,
   passport.authenticate('local', {
     successRedirect: '/api/user/dashboard',
-    // failureRedirect: '/',
+    failureRedirect: '/api/auth/login',
   }),
   (req, res) => {
-    res.send('signed in! ' + JSON.stringify(req.body))
+    console.log('signed in! ' + JSON.stringify(req.body))
+    res.send()
   }
 )
 
@@ -82,10 +78,9 @@ router.post('/signup', isNotLoggedIn, async (req, res) => {
         //user stragety
         passport.authenticate('local')(req, res, () => {
           //once the user sign up
-          // res.redirect('/api/dashboard')
-          res.send('signed up!' + JSON.stringify(user))
+          console.log('signed up!' + JSON.stringify(user))
+          res.redirect('/api/user/dashboard')
         })
-        console.log('added user' + JSON.stringify(req.body))
       })
     })
     .catch((error) => {
