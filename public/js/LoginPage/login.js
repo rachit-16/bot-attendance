@@ -1,11 +1,25 @@
-<h1>Login</h1>
+const loginButton = document.querySelector('#login')
+const usernameInput = document.querySelector('#login_username')
+const passwordInput = document.querySelector('#login_password')
+const toSignup = document.querySelector('#create_a_new_account')
 
-<form method="POST" action="/login">
-    <input type="text" name="username" placeholder="username">
-    <input type="password" name="password" placeholder="password">
-    <button> Login </button>
-</form>
+loginButton.addEventListener('click', () => {
+	const username = usernameInput.value
+	const password = passwordInput.value
+	fetch('http://localhost:3000/api/auth/login', {
+		method: 'POST',
+		body: JSON.stringify({
+			username: username,
+			password: password,
+		}),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})
+		.then((res) => (window.location = res.url))
+		.catch((error) => console.error(error))
+})
 
-<li><a href="/">Sign Up</a></li>
-<li><a href="/logout">Logout!</a></li>
-<li><a href="/login">Login!</a></li>
+toSignup.addEventListener('click', () => {
+	window.location = 'http://localhost:3000/api/auth/signup'
+})

@@ -1,11 +1,38 @@
-<h1> Sign Up Form </h1>
+<link rel="stylesheet" href="/css/SignupPage/signup.css" />
+<div class="wrapper">
+	<div class="Sign_Up_Form">
+		<div class="details">
+			<h2>Sign Up</h2>
+			<br />
+			<h4 style="font-weight: bold">Create a new account.</h4>
+			<br />
+			<input type="text" id="Name" placeholder="Name" name="name" required />
+			<br />
+			<input type="email" id="Email" placeholder="Email" name="email" required />
+			<br />
+			<input type="text" id="UserName" placeholder="Username" name="username" required />
+			<br />
+			<input type="password" id="Password" placeholder="Password" name="password" required />
+			<br />
+			<input
+				type="password"
+				id="Confirm_Password"
+				placeholder="Confirm Password"
+				name="password2"
+				required
+			/>
+			<br />
+			<button id="signup">Signup</button>
+			<br />
+			<div class="footer">
+				<div id="already_have_an_account">Already have an account?</div>
+				<div id="sign_in">Sign In</div>
+			</div>
+		</div>
+	</div>
+	<div class="image">
+		<div class="image_heading"></div>
+	</div>
+</div>
 
-<form method="POST" action="/api/users/register">
-    <input type="text" name="username" placeholder="username">
-    <input type="password" name="password" placeholder="password">
-    <button> Submit </button>
-</form>
-
-<li><a href="/">Sign Up</a></li>
-<li><a href="/api/users/logout">Logout!</a></li>
-<li><a href="/api/users/login">Login!</a></li>
+<script src="/js/SignupPage/signup.js"></script>
