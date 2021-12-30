@@ -1,0 +1,136 @@
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
+/>
+<link rel="stylesheet" href="/css/MeetingDetails/meeting-details.css" />
+
+<div style="display: flex">
+	<!-- SIDEBAR -->
+
+	<%- include("../partials/sidebar.ejs"); %>
+
+	<!-- MEETING DETAILS -->
+
+	<div class="meeting-details">
+		<h2>Meeting Details</h2>
+
+		<!-- PARAMETER 1: MEETING LINK -->
+
+		<div class="meeting-parameters">
+			<div class="parameter-icons">
+				<i class="bi bi-link-45deg"></i>
+			</div>
+
+			<div class="parameter-details">
+				<h5>Meet Link</h5>
+				<p><%= meeting.link %></p>
+			</div>
+		</div>
+
+		<!-- PARAMETER 2: NO. OF PARTICIPANTS -->
+
+		<div class="meeting-parameters">
+			<div class="parameter-icons">
+				<i class="bi bi-person"></i>
+			</div>
+
+			<div class="parameter-details">
+				<h5>Participants</h5>
+				<p><%= meeting.participantsCount %></p>
+			</div>
+		</div>
+
+		<!-- PARAMETER 3: MEETING DATE -->
+
+		<div class="meeting-parameters">
+			<div class="parameter-icons">
+				<i class="bi bi-calendar3"></i>
+			</div>
+
+			<div class="parameter-details">
+				<h5>Date</h5>
+				<p><%= meeting.date %></p>
+			</div>
+		</div>
+
+		<!-- PARAMETER 4: MEETING TIME -->
+
+		<div class="meeting-parameters">
+			<div class="parameter-icons">
+				<i class="bi bi-clock"></i>
+			</div>
+
+			<div class="parameter-details">
+				<h5>Time</h5>
+				<p><%= meeting.time %></p>
+			</div>
+		</div>
+
+		<!-- PARAMETER 5: MEETING CREATOR -->
+
+		<div class="meeting-parameters">
+			<div class="parameter-icons">
+				<i class="bi bi-person-check"></i>
+			</div>
+
+			<div class="parameter-details">
+				<h5>Creator</h5>
+				<p><%= meeting.hostName %></p>
+			</div>
+		</div>
+	</div>
+
+	<!-- PARTICIPANTS TABLE -->
+
+	<div class="wrapper">
+		<div class="table">
+			<table>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Present</th>
+						<th>Absent</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% if (!meeting.participants || meeting.participants.length === 0) { %>
+					<tr>
+						<td>No participants yet!</td>
+					</tr>
+					<% } else {%> <% meeting.participants.forEach((participant, idx) => { %>
+					<tr>
+						<td><%= participant.name %></td>
+						<!-- Present -->
+						<td>
+							<input class="checkmark" type="radio" name="student_<%= idx %>" checked />
+						</td>
+						<!-- Absent -->
+						<td>
+							<input class="checkmark" type="radio" name="student_<%= idx %>" />
+						</td>
+					</tr>
+					<%}) %> <% } %>
+				</tbody>
+			</table>
+		</div>
+
+		<button id="add-participant-btn">New Participant</button>
+	</div>
+
+  <!-- ADD PARTICIPANT POPUP -->
+  <div id="add-participant-popup" class="bg-modal">
+    <div class="modal-content">
+        <div class="close-add">+</div>
+        <!-- <div class="icon">
+           <img src="/icon.svg" alt="">
+        </div> -->
+        <form id="add-participant-form">
+            <p id="add_participant">Add Participant</p>
+            <input type="text" name="name" placeholder="Enter Name of Participant">
+            <button id="add-button">Add</a>
+        </form>
+    </div>
+   </div>
+</div>
+
+<script src="/js/MeetingDetails/meeting-details.js"></script>

@@ -1,0 +1,168 @@
+/*----- ROOT CSS -----*/
+
+* {
+	max-width: 100%;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: 'Roboto', 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/*----- MEETING DETAILS -----*/
+
+.meeting-details {
+	height: 100vh;
+	width: 30vw;
+	float: right;
+	padding: 2rem;
+}
+
+.meeting-details h2 {
+	margin-bottom: 2rem;
+}
+
+.meeting-details h5 {
+	color: #666;
+	font-weight: 400;
+}
+
+.meeting-parameters {
+	display: flex;
+	margin-bottom: 2rem;
+}
+
+.parameter-icons {
+	font-size: 1.5rem;
+	background-color: #eaebff;
+	border-radius: 10px;
+	padding: 0.4rem 0.6rem;
+}
+
+.meeting-parameters i {
+	color: #9da2f2;
+}
+
+.parameter-details {
+	margin-left: 1rem;
+}
+
+/*----- TABLE, NEW PARTICIPANT BUTTON -----*/
+
+.wrapper {
+	padding: 2rem;
+	width: 50%;
+	margin: 1rem auto;
+}
+
+/*----- TABLE -----*/
+
+.table {
+	border-radius: 10px;
+	border: 0.2px solid #e8e8e8;
+	margin-bottom: 1rem;
+}
+
+.table table {
+	border-spacing: 0px;
+	width: 100%;
+	text-align: left;
+	font-weight: 400;
+}
+
+.table thead {
+	background-color: #d8edff;
+}
+
+table th:first-child {
+	border-radius: 10px 0 0 0;
+}
+
+table th:last-child {
+	border-radius: 0 10px 0 0;
+}
+
+.table tbody td {
+	border-top: 0.2px solid #e8e8e8;
+}
+
+.table th,
+td {
+	padding: 0.8rem 1rem;
+}
+
+/*----- NEW PARTICIPANT BUTTON -----*/
+
+#add-participant-btn {
+	padding: 0.5rem 2rem;
+	background-color: #d8edff;
+	color: #0099ff;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+	transition: 0.2s all;
+}
+
+#add-participant-btn:hover {
+	background-color: #0099ff;
+	color: #fff;
+}
+
+/* ADD PARTICIPANT POPUP */
+
+.bg-modal {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+	position: absolute;
+	top: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	display: none;
+}
+.modal-content {
+	width: 20%;
+	height: 20%;
+	background-color: white;
+	border-radius: 2%;
+	text-align: center;
+	padding: 2%;
+	position: relative;
+}
+#add-button {
+	background-color: #2da4f4;
+	border: 2px solid white;
+	border-radius: 30px;
+	text-decoration: none;
+	padding: 10px 28px;
+	color: white;
+	margin-top: 10px;
+	display: inline-block;
+}
+#add-button:hover {
+	background-color: white;
+	color: #2da4f4;
+	border: 2px solid #2da4f4;
+}
+
+input {
+	margin: 5% auto;
+	display: block;
+	width: 50%;
+	padding: 3%;
+	border: 1px solid #e5e5e5;
+	border-radius: 2%;
+}
+#add_participant {
+	color: #666666;
+	font-weight: bold;
+}
+.close-add {
+	position: absolute;
+	top: 0;
+	right: 7%;
+	font-size: 3em;
+	transform: rotate(45deg);
+	cursor: pointer;
+	margin: 2%;
+}
