@@ -6,7 +6,13 @@ setTimeout(() => {
 	const divList = document.querySelectorAll('.KV1GEc')
 	const allParticipants = document.querySelectorAll('span[class="ZjFb7c"]')
 
-	const isPresenting = divList[divList.length - 1].innerText.indexOf('Presentation') !== -1
+	let isPresenting = false
+	for (let item of divList) {
+		if (item.innerText.indexOf('Presentation') !== -1) {
+			isPresenting = true
+			break
+		}
+	}
 	const you = allParticipants[0].innerText
 	const taker = allParticipants[allParticipants.length - (isPresenting ? 2 : 1)].innerText
 
