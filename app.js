@@ -91,7 +91,7 @@ const TimeNow = new Date().getTime()
 // 		console.log(err);
 // 	});
 
-const callBotFn = (meetLink, id) => {
+const callBotFn = (meetLink, id, hostId) => {
 	console.log('process 1 started at ', new Date().toString())
 
 	CurrentmeetDetails.forEach((element) => {
@@ -110,6 +110,7 @@ const callBotFn = (meetLink, id) => {
 			const childProcess = fork('./meet-bot.js')
 			childProcess.send({
 				link: meetLink,
+				hostId: hostId,
 			})
 
 			// childProcess.on('message', (message) => {
@@ -134,6 +135,7 @@ const callBotFn = (meetLink, id) => {
 const task = new Task('simple task', async () => {
 	// task to be done after every interval
 	const data = await Meeting.find({})
+	// console.log('data[0]:::', data[0])
 
 	CurrentmeetDetails = []
 	console.log('in')
@@ -148,6 +150,7 @@ const task = new Task('simple task', async () => {
 				id: `${Math.random() * 1000000}`,
 				time: element.time,
 				link: element.link,
+				hostId: element.host,
 				called: false,
 			})
 
@@ -157,7 +160,7 @@ const task = new Task('simple task', async () => {
 			const hr = dateTime.getHours()
 
 			const job = schedule.scheduleJob(`00 ${min} ${hr} * * *`, () => {
-				callBotFn(element.link, element.id)
+				callBotFn(element.link, element.id, element.host)
 			})
 		}
 	})

@@ -5,34 +5,29 @@ document.querySelector('button[aria-label="Show everyone"]').click()
 setTimeout(() => {
 	const divList = document.querySelectorAll('.KV1GEc')
 	const allParticipants = document.querySelectorAll('span[class="ZjFb7c"]')
+	const unwantedIndices = []
+	let takerIdx
 
-	let isPresenting = false
-	for (let item of divList) {
-		if (item.innerText.indexOf('Presentation') !== -1) {
-			isPresenting = true
-			break
+	divList.forEach((div, idx) => {
+		if (div.innerText.indexOf('Presentation') !== -1) {
+			unwantedIndices.push(idx)
+		}
+
+		if (div.innerText.indexOf('host') !== -1) {
+			unwantedIndices.push(idx)
+			takerIdx = idx
+		}
+	})
+
+	const you = allParticipants[0].innerText
+	const taker = allParticipants[takerIdx].innerText
+
+	for (let i = 1; i < allParticipants.length; i++) {
+		if (!unwantedIndices.includes(i)) {
+			let attendee = allParticipants[i].innerText
+			c += attendee + '@'
 		}
 	}
-	const you = allParticipants[0].innerText
-	const taker = allParticipants[allParticipants.length - (isPresenting ? 2 : 1)].innerText
-
-	c += you + '@'
-
-	for (let i = 1; i < allParticipants.length - (isPresenting ? 2 : 1); i++) {
-		let attendee = allParticipants[i].innerText
-		c += attendee + '@'
-	}
-
-	function copyToClipboard(text) {
-		const dummy = document.createElement('textarea')
-		document.body.appendChild(dummy)
-		dummy.value = text
-		dummy.select()
-		document.execCommand('copy')
-		document.body.removeChild(dummy)
-	}
-
-	copyToClipboard(c)
 
 	const iframe = document.createElement('IFRAME')
 	iframe.setAttribute('name', 'formTarget')

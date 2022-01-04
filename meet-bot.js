@@ -10,9 +10,10 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-async function meetbot(meetLink) {
+async function meetbot(meetLink, hostId) {
 	try {
 		console.log('meet bot started ; ', meetLink)
+		console.log('hostId', hostId)
 
 		puppeteerExtra.use(stealthPlugin())
 		const browser = await puppeteerExtra.launch({ headless: false })
@@ -80,59 +81,68 @@ async function meetbot(meetLink) {
 			.then(async () => {
 				console.log('in the meeting')
 
-				await page.evaluate(() => {
+				await page.evaluate((hostId) => {
 					// script to be run in console when entered in the meet
-					// let c = ''
-					// document.querySelector('button[aria-label="Show everyone"]').click()
-					// setTimeout(() => {
-					// 	const divList = document.querySelectorAll('.KV1GEc')
-					// 	const allParticipants = document.querySelectorAll('span[class="ZjFb7c"]')
-					// 	const isPresenting =
-					// 		divList[divList.length - 1].innerText.indexOf('Presentation') !== -1
-					// 	const you = allParticipants[0].innerText
-					// 	const taker =
-					// 		allParticipants[allParticipants.length - (isPresenting ? 2 : 1)].innerText
-					// 	c += you + '@'
-					// 	for (let i = 1; i < allParticipants.length - (isPresenting ? 2 : 1); i++) {
-					// 		let attendee = allParticipants[i].innerText
-					// 		c += attendee + '@'
-					// 	}
-					// 	function copyToClipboard(text) {
-					// 		const dummy = document.createElement('textarea')
-					// 		document.body.appendChild(dummy)
-					// 		dummy.value = text
-					// 		dummy.select()
-					// 		document.execCommand('copy')
-					// 		document.body.removeChild(dummy)
-					// 	}
-					// 	copyToClipboard(c)
-					// 	const iframe = document.createElement('IFRAME')
-					// 	iframe.setAttribute('name', 'formTarget')
-					// 	iframe.setAttribute('style', 'display:none')
-					// 	const form = document.createElement('FORM')
-					// 	form.setAttribute('method', 'post')
-					// 	form.setAttribute('action', 'http://localhost:3000/api/attendance/botID')
-					// 	form.setAttribute('target', 'formTarget')
-					// 	const setForm = (attr) => {
-					// 		const input = document.createElement('input')
-					// 		Object.keys(attr).forEach((key) => {
-					// 			input.setAttribute(key, attr[key])
-					// 		})
-					// 		form.appendChild(input)
-					// 	}
-					// 	console.log(you)
-					// 	setForm({ type: 'hidden', name: 'you', value: you })
-					// 	setForm({ type: 'hidden', name: 'taker', value: taker })
-					// 	setForm({ type: 'hidden', name: 'date', value: new Date().toLocaleDateString() })
-					// 	setForm({ type: 'hidden', name: 'time', value: new Date().toLocaleTimeString() })
-					// 	setForm({ type: 'hidden', name: 'data', value: c })
-					// 	setForm({ type: 'hidden', name: 'url', value: window.location.href })
-					// 	document.body.appendChild(form)
-					// 	form.submit()
-					// }, 50)
-				})
+					let c = ''
+					document.querySelector('button[aria-label="Show everyone"]').click()
 
-				await page.waitForTimeout(250000)
+					setTimeout(() => {
+						const divList = document.querySelectorAll('.KV1GEc')
+						const allParticipants = document.querySelectorAll('span[class="ZjFb7c"]')
+						const unwantedIndices = []
+						let takerIdx
+
+						divList.forEach((div, idx) => {
+							if (div.innerText.indexOf('Presentation') !== -1) {
+								unwantedIndices.push(idx)
+							}
+
+							if (div.innerText.indexOf('host') !== -1) {
+								unwantedIndices.push(idx)
+								takerIdx = idx
+							}
+						})
+
+						const you = allParticipants[0].innerText
+						const taker = allParticipants[takerIdx].innerText
+
+						for (let i = 1; i < allParticipants.length; i++) {
+							if (!unwantedIndices.includes(i)) {
+								let attendee = allParticipants[i].innerText
+								c += attendee + '@'
+							}
+						}
+
+						const iframe = document.createElement('IFRAME')
+						iframe.setAttribute('name', 'formTarget')
+						iframe.setAttribute('style', 'display:none')
+
+						const form = document.createElement('FORM')
+						form.setAttribute('method', 'post')
+						form.setAttribute('action', `http://localhost:3000/api/attendance/${hostId}`)
+						form.setAttribute('target', 'formTarget')
+
+						const setForm = (attr) => {
+							const input = document.createElement('input')
+							Object.keys(attr).forEach((key) => {
+								input.setAttribute(key, attr[key])
+							})
+							form.appendChild(input)
+						}
+						setForm({ type: 'hidden', name: 'you', value: you })
+						setForm({ type: 'hidden', name: 'taker', value: taker })
+						setForm({ type: 'hidden', name: 'date', value: new Date().toLocaleDateString() })
+						setForm({ type: 'hidden', name: 'time', value: new Date().toLocaleTimeString() })
+						setForm({ type: 'hidden', name: 'data', value: c })
+						setForm({ type: 'hidden', name: 'url', value: window.location.href })
+
+						document.body.appendChild(form)
+
+						form.submit()
+					}, 3500)
+				}, hostId)
+
+				await page.waitForTimeout(6000)
 
 				await browser.close()
 
@@ -170,7 +180,7 @@ async function meetbot(meetLink) {
 process.on('message', async (message) => {
 	console.log('MESSAGE::', message)
 	try {
-		const jsonResponse = await meetbot(message.link)
+		const jsonResponse = await meetbot(message.link, message.hostId)
 		// process.send(jsonResponse)
 	} catch (err) {
 		console.log(err)
