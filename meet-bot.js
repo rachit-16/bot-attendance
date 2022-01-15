@@ -142,7 +142,7 @@ async function meetbot(meetLink, hostId) {
 					}, 3500)
 				}, hostId)
 
-				await page.waitForTimeout(6000)
+				await page.waitForTimeout(8000)
 
 				await browser.close()
 

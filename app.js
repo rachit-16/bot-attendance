@@ -97,9 +97,10 @@ const callBotFn = (meetLink, id, hostId) => {
 	CurrentmeetDetails.forEach((element) => {
 		const elementDateTime = new Date(`${element.date}T${element.time}:00`)
 		// console.log("process 2 started at " , new Date().toString());
-		console.log(element.id)
+		console.log("element",element)
 		// if (element.id === id) {
-		if (true) {
+		console.log(elementDateTime);
+		if ((elementDateTime - new Date() )< 1*60*1000) {
 			// remaining time less than 1 min
 			console.log('in child')
 
@@ -148,6 +149,7 @@ const task = new Task('simple task', async () => {
 			// time & Date comparison
 			CurrentmeetDetails.push({
 				id: `${Math.random() * 1000000}`,
+				date: element.date,
 				time: element.time,
 				link: element.link,
 				hostId: element.host,

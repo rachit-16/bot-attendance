@@ -1,5 +1,6 @@
 const express = require('express')
 const Meeting = require('../models/meeting')
+const mongoose = require('mongoose')
 
 const router = express.Router()
 
@@ -26,8 +27,8 @@ router.post('/attendance/:hostId', async (req, res) => {
 			participantsCount: attendees.length,
 			date,
 			time,
-			// host: mongoose.Types.ObjectId(hostId), // change this to get data from URL
-			host: hostId, // change this to get data from URL
+			host: mongoose.Types.ObjectId(hostId), // change this to get data from URL
+			// host: hostId, // change this to get data from URL
 			hostName: taker,
 			participants: attendees,
 		})
@@ -36,6 +37,7 @@ router.post('/attendance/:hostId', async (req, res) => {
 		await newAttendance.save()
 		res.status(201).send(newAttendance)
 	} catch (error) {
+		console.log("not saved to db: " + error)
 		res.status(400).send(error)
 	}
 })
