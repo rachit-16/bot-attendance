@@ -1,0 +1,55 @@
+/*----- ROOT CSS -----*/
+
+* {
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+/* ----- ABOUT ----- */
+
+.sidebar {
+  position: fixed;
+}
+
+.about {
+  height: 100vh;
+  width: 78vw;
+  float: right;
+  padding: 2rem;
+}
+
+.about > h1 {
+  margin-bottom: 1rem;
+}
+
+/* ----- TUTORIAL ----- */
+
+.tut {
+  line-height: 1.5;
+  padding: 1rem 0rem;
+}
+
+.tut h3 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.tut li {
+  margin-bottom: 2rem;
+  list-style: none;
+}
+
+.tut h4 {
+  color: darkblue;
+  font-size: 1.2rem;
+}
+
+.tut > ul > li > p > img {
+    border-radius: 5px;
+    height: 25rem;
+    width: auto;
+    border: 2px solid #f0f0f0;
+}

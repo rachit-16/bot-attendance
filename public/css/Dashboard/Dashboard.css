@@ -32,17 +32,14 @@
 	width: 95%;
 	height: 90%;
 	margin: auto;
-	background: linear-gradient(
-		268.7deg,
-		rgba(191, 225, 255, 0.6) 0.05%,
-		rgba(238, 239, 255, 0.6) 99.95%
-	);
+	background: linear-gradient(268.7deg,
+			rgba(191, 225, 255, 0.6) 0.05%,
+			rgba(238, 239, 255, 0.6) 99.95%);
 	backdrop-filter: blur(3px);
 	border-radius: 41.9417px 0px;
 }
 
-#header-box h2,
-p {
+#header-box>p, h2 {
 	position: relative;
 	top: 30%;
 	left: 5%;
@@ -65,22 +62,64 @@ p {
 }
 
 .wrapper h2 {
+	margin-right: 5rem;
+	display: inline;
 	margin-bottom: 1rem;
+	position: relative;
+	left: 0%;
+}
+
+.wrapper>input {
+	display: inline;
+}
+
+/* ---- DROPDOWN MENU AND SEARCH ----- */
+
+.dropdown {
+	display: inline;
+}
+
+.dropdown>input {
+	border-radius: 3px;
+	float: right;
+	display: inline;
+	margin: 0rem 1rem 1rem 0rem;
+	width: 30%;
+	padding: 8px;
+	border: 1px solid #e5e5e5;
+}
+
+.dropdown>input:focus-visible{
+	border: 1px solid rgb(117, 117, 117);
+	outline: none;
+}
+
+.dropdown>select {
+	border-radius: 3px;
+	margin: 0rem 1rem 1rem 0rem;
+	float: right;
+	border: 1px solid #e5e5e5;
+	padding: 5px;
+	font-size: inherit;
+}
+
+.dropdown>select:focus-visible {
+	border: 1px solid rgb(117, 117, 117);
 }
 
 /*----- TABLE -----*/
 
 .table {
-	border-radius: 10px;
-	border: 0.2px solid #e8e8e8;
 	margin-bottom: 1rem;
 }
 
 .table table {
+	border: 0.2px solid #e8e8e8;
 	border-spacing: 0px;
 	width: 100%;
 	text-align: left;
 	font-weight: 300;
+	border-radius: 10px;
 }
 
 .table thead {
@@ -162,6 +201,7 @@ td {
 .bi {
 	color: #666666;
 }
+
 .bi:hover {
 	cursor: pointer;
 }
@@ -179,6 +219,7 @@ td {
 	align-items: center;
 	display: none;
 }
+
 .modal-content {
 	width: 20%;
 	height: 50%;
@@ -192,6 +233,7 @@ td {
 	padding-left: 1%;
 	padding-right: 1%;
 }
+
 #edit-meeting-button {
 	background-color: #2da4f4;
 	border: 2px solid white;
@@ -202,6 +244,7 @@ td {
 	margin-top: 10px;
 	display: inline-block;
 }
+
 #edit-meeting-button:hover {
 	background-color: white;
 	color: #2da4f4;
@@ -216,10 +259,12 @@ input {
 	border: 1px solid #e5e5e5;
 	border-radius: 2%;
 }
+
 #edit_participant {
 	color: #666666;
 	font-weight: bold;
 }
+
 .close-edit {
 	position: absolute;
 	top: 0;
@@ -241,6 +286,7 @@ input {
 	align-items: center;
 	display: none;
 }
+
 .modal-content {
 	width: 20%;
 	height: 50%;
@@ -254,6 +300,7 @@ input {
 	padding-left: 1%;
 	padding-right: 1%;
 }
+
 #add-meeting-button {
 	background-color: #2da4f4;
 	border: 2px solid white;
@@ -264,6 +311,7 @@ input {
 	margin-top: 10px;
 	display: inline-block;
 }
+
 #add-meeting-button:hover {
 	background-color: white;
 	color: #2da4f4;
@@ -278,10 +326,12 @@ input {
 	border: 1px solid #e5e5e5;
 	border-radius: 2%;
 }
+
 #add_meet {
 	color: #666666;
 	font-weight: bold;
 }
+
 .close-new {
 	position: absolute;
 	top: 0;

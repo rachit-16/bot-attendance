@@ -4,7 +4,7 @@
 />
 <link rel="stylesheet" href="/css/MeetingDetails/meeting-details.css" />
 
-<div style="display: flex">
+<div style="display:flex ">
 	<!-- SIDEBAR -->
 
 	<%- include("../partials/sidebar.ejs"); %>
@@ -83,6 +83,16 @@
 	<!-- PARTICIPANTS TABLE -->
 
 	<div class="wrapper">
+		<h2>Participants</h2>
+
+		<!-- SEARCH -->
+			
+			<div class="dropdown">
+				<input type="text" placeholder="Search..">
+			  </div>
+
+		<!-- TABLE -->
+		
 		<div class="table">
 			<table>
 				<thead>
