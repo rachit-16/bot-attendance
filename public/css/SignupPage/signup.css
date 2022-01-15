@@ -3,33 +3,37 @@
 	margin: 0;
 	padding: 0;
 	font-family: Calibri, 'Trebuchet MS', sans-serif;
+	box-sizing: border-box;
+	 
 }
 /*------------------ WRAPPER-------------------------- */
 .wrapper {
 	display: flex;
 	width: 100%;
-	height: 100vh;
+	height: 100%;
 }
 
 /* ---------------------------SIGN UP FORM------------------------- */
 .Sign_Up_Form {
-	margin-right: 5%;
+	margin-right: 10%;
 	margin-top: 5%;
-	margin-left: 5%;
-	margin-bottom: 5%;
+	margin-left: 10%;
+	margin-bottom: 10%;
+	box-sizing: border-box;
 	padding: 2% 2%;
 	width: 30%;
+	/* position: relative; */
 }
-
+/* 
 .details {
 	padding: 10%;
-}
+} */
 
 input[type='text'],
 input[type='password'],
 input[type='email'] {
 	width: 100%;
-	padding: 4% 6%;
+	padding: 4% 5%;
 	margin: 4% 0;
 	display: inline-block;
 	box-sizing: border-box;
@@ -40,12 +44,13 @@ input[type='email'] {
 	background-color: #2da4f4;
 	color: white;
 	padding: 2% 2%;
-	margin: 3% 0;
+	/* margin: 3% 0; */
 	border: none;
 	cursor: pointer;
 	width: 40%;
 	height: 10%;
 	border-radius: 4%;
+	transition: 0.2s all;
 }
 #signup:hover {
 	background-color: #fff;
@@ -53,12 +58,12 @@ input[type='email'] {
 }
 .footer {
 	display: flex;
-	margin-top: 10%;
+	margin-top: 5%;
 }
 #already_have_an_account {
-	font-size: smaller;
-	margin: 2%;
-	width: 100%;
+	margin-top: 2%;
+	margin-right: 2%;
+	font-weight: lighter;
 }
 #sign_in {
 	font-size: smaller;
@@ -75,22 +80,27 @@ input[type='email'] {
 .image {
 	margin: 1%;
 	padding: 0;
-	box-shadow: 10px;
+	/* box-shadow: 10px; */
 	background: url(/img/loginbg.png);
 	background-repeat: no-repeat;
-	width: 100%;
-	background-size: cover;
-	border-radius: 2%;
+	width: 70%;
+	height:95vh;
+	/* background-size: cover; */
+	border-radius: 1%;
 }
 
 .image_heading {
-	margin: 5%;
+	/* margin: 0; */
 	padding: 0;
-	width: 25%;
+	width: 30%;
 	font-weight: bold;
 	color: #fff;
 	background: url(/img/logo.svg);
-	height: 25%;
+	height: 25vh;
 	background-repeat: no-repeat;
-	float: right;
+	/* float: right; */
+	margin-left: auto;
+	margin-top: 5%;
+	margin-right: 5%;
+	padding-right: 5%;
 }
