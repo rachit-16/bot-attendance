@@ -62,6 +62,116 @@ mongoose
 		console.error(error)
 	})
 
+//////////////////////////////// bot///////////////////////////////
+// for meet-bot
+// const MeetBot = require('./meet-bot')
+const { ToadScheduler, SimpleIntervalJob, Task } = require('toad-scheduler')
+const BotStatus = require('./models/botStatus')
+const scheduler = new ToadScheduler()
+const { fork } = require('child_process')
+const Bot = require('./models/bot')
+const Meeting = require('./models/meeting')
+const schedule = require('node-schedule')
+
+let CurrentmeetDetails = []
+
+const TimeNow = new Date().getTime()
+
+// Meeting.find({}).then(
+// 	(data)=>{
+
+// 		// const dateTime = moment(`${data.date} ${data.time}`, "YYYY-MM-DD hh:mm" ).format();
+// 		// console.log("data : " + data);
+// 		console.log("dateTIME : " + dateTime);
+// 		console.log("date : " + dateTime.toDate());
+
+// 		console.log("js data : " + new Date());
+// 		console.log("diff : " + dateTime - new Date());
+// 	}).catch((err)=>{
+// 		console.log(err);
+// 	});
+
+const callBotFn = (meetLink, id, hostId) => {
+	console.log('process 1 started at ', new Date().toString())
+
+	CurrentmeetDetails.forEach((element) => {
+		const elementDateTime = new Date(`${element.date}T${element.time}:00`)
+		// console.log("process 2 started at " , new Date().toString());
+		console.log("element",element)
+		// if (element.id === id) {
+		console.log(elementDateTime);
+		if ((elementDateTime - new Date() )< 1*60*1000) {
+			// remaining time less than 1 min
+			console.log('in child')
+
+			console.log(CurrentmeetDetails)
+
+			element.called = true
+			console.log(__dirname, meetLink)
+			const childProcess = fork('./meet-bot.js')
+			childProcess.send({
+				link: meetLink,
+				hostId: hostId,
+			})
+
+			// childProcess.on('message', (message) => {
+			// 	const botStatusUpdate = new BotStatus({
+			// 		meetLink: message.meetLink,
+			// 		timeTaken: message.time,
+			// 		entryStatus: message.entryStatus,
+			// 	})
+
+			// 	// console.log(botStatusUpdate)
+			// 	botStatusUpdate.save()
+			// })
+
+			// remove the meeting done from the array
+			CurrentmeetDetails = CurrentmeetDetails.filter(function (value, index, arr) {
+				return value.called === false
+			})
+		}
+	})
+}
+
+const task = new Task('simple task', async () => {
+	// task to be done after every interval
+	const data = await Meeting.find({})
+	// console.log('data[0]:::', data[0])
+
+	CurrentmeetDetails = []
+	console.log('in')
+	data.forEach((element) => {
+		// console.log("data : " + data);
+
+		const dateTime = new Date(`${element.date}T${element.time}:00`)
+
+		if (dateTime - new Date() < 15 * 60 * 1000 && dateTime - new Date() > 0) {
+			// time & Date comparison
+			CurrentmeetDetails.push({
+				id: `${Math.random() * 1000000}`,
+				date: element.date,
+				time: element.time,
+				link: element.link,
+				hostId: element.host,
+				called: false,
+			})
+
+			console.log('meeting sheduled at: ', dateTime.toString())
+			console.log('cuurent::: ', CurrentmeetDetails)
+			const min = dateTime.getMinutes()
+			const hr = dateTime.getHours()
+
+			const job = schedule.scheduleJob(`00 ${min} ${hr} * * *`, () => {
+				callBotFn(element.link, element.id, element.host)
+			})
+		}
+	})
+})
+const job = new SimpleIntervalJob({ seconds: 10 }, task)
+
+scheduler.addSimpleIntervalJob(job)
+///////////////////////////////////////////////////////////////////
+
 // routes
 // app.use('/api/user', userRoutes)
 // app.use('/api/user/meetings', meetingRoutes)
@@ -80,3 +190,5 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
 	console.log(`Server is up on port ${PORT}`)
 })
+
+// node --print-bytecode code-meet.js

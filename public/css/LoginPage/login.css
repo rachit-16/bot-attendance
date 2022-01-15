@@ -44,7 +44,7 @@ input[type='text'],
 input[type='password'] {
 	width: 100%;
 	padding: 4% 5%;
-	margin: 8px 0;
+	margin: 4% 0;
 	display: inline-block;
 	box-sizing: border-box;
 	border-radius: 4%;
@@ -59,11 +59,16 @@ input[type='password'] {
 	width: 40%;
 	height: 10%;
 	border-radius: 4%;
+	transition: 0.2s all;
 }
 
 #login:hover {
 	background-color: #fff;
 	color: #2da4f4;
+}
+.footer{
+	display: flex;
+	margin-top: 5%;
 }
 #dont_have_a_account {
 	margin-top: 2%;
