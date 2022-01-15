@@ -1,11 +1,64 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" />
+<link rel="stylesheet" href="/css/AboutPage/About.css" />
+
 <div>
-  <h1>About Page</h1>
-  <p>
-    In this era of online education, one big hassle is tracking the attendance of students. Hence,
-    this project is aimed to solve this problem, by providing an online tool (a bot, so to speak),
-    that can automatically join the specified meeting at the specified time and take record of the
-    students present in the meet at that time and then, leave automatically. This tool also
-    provides the history of all the meetings of the user and the corresponding records of students,
-    for future use.
-  </p>
-</div>
+  <!-- SIDEBAR -->
+
+  <%- include("../partials/sidebar.ejs"); %>
+
+    <!-- About -->
+
+    <div class="about">
+
+      <h1>The Automated Attendance Project</h1>
+      <p>
+        In this era of online education, one big hassle is tracking the attendance of students. Hence,
+        this project is aimed to solve this problem, by providing an online tool (a bot, so to speak),
+        that can automatically join the specified meeting at the specified time and take record of the
+        students present in the meet at that time and then, leave automatically. This tool also
+        provides the history of all the meetings of the user and the corresponding records of students,
+        for future use.
+      </p>
+      <br>
+      <p><b> Made by Abhinav, Anuj, Ritik and Rachit </b></p>
+      <br>
+      <div class="tut">
+        <h3>Tutorial</h3>
+        <ul>
+            <li>
+                <h4>Step 1</h4>
+                <p>Login to you account. If you don't have an account, Register to create a new account. 
+                    <img src="/img/sign-in.svg" alt="sign-in-page">
+                </p>
+            </li>
+            <li>
+                <h4>Step 2</h4>
+                <p>After login process, you will be redirected to your dashboard where you can see all your meetings
+                    records. To add a new meeting, click on 'Copy Code > Select Google Meet > Enter you password > Click
+                    on 'Get Code' and your code will be copied.
+            </li>
+            <li>
+                <h4>Step 3</h4>
+                <p>Now, go to your ongoing Google Meeting > Click on 'Show Everyone' button on bottom right section >
+                    Right click on the panel and select inspect > Go to 'Console' tab and paste the code you copied. You
+                    will be redirected to new tab, where you can see the record of your ongoing meeting.
+                    <img src="/public/img/meet-page.jpg" alt="meet-page"></p>
+            </li>
+            <li>
+                <h4>Step 4</h4>
+                <p>From dashboard, you can <b>Read <span style="color: rgb(88, 185, 84);" class="iconify read"
+                            data-icon="fa-solid:book-open" data-inline="false"></span>, &nbsp; Edit <span
+                            style="color: rgb(39, 94, 245);" class="iconify" data-icon="clarity:edit-solid"
+                            data-inline="false"></span> &nbsp; or Delete <span style="color: rgb(230, 62, 62);" class="iconify"
+                            data-icon="ant-design:delete-filled" data-inline="false"></span></b> &nbsp; your records by
+                    clicking the buttons corresponding to each record.<img src="/public/img/main-page.jpg" alt="main-page"> </p>
+            </li>
+            <li>
+                <h4>Step 5</h4>
+                <p>When you click on the 'read' button, you can see
+                    the Details of that meeting. From details page, you can add a participant manually and can also
+                    download a PDF file of that meeting.<img src="/public/img/details-page.jpg" alt="details-page"> </p>
+            </li>
+        </ul>
+    </div>
+    </div>
