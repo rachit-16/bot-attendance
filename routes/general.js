@@ -1,5 +1,6 @@
 const express = require('express')
 const Meeting = require('../models/meeting')
+const mongoose = require('mongoose')
 
 const router = express.Router()
 
@@ -7,10 +8,10 @@ router.get('/about', (req, res) => {
 	res.render('AboutPage/about')
 })
 
-router.post('/attendance/:botId', async (req, res) => {
-	console.info('GOT ATTENDANCE:\n', req.body)
+router.post('/attendance/:hostId', async (req, res) => {
 	const { taker, date, time, data, url } = req.body
-	const { botId } = req.params
+	const { hostId } = req.params
+	console.info('GOT ATTENDANCE:\n', req.body, hostId)
 	const attendees = data.split('@').map((attendee) => {
 		return {
 			name: attendee,
@@ -18,21 +19,25 @@ router.post('/attendance/:botId', async (req, res) => {
 	})
 	attendees.pop()
 
+	console.log(attendees)
+
 	try {
 		const newAttendance = new Meeting({
 			link: url,
 			participantsCount: attendees.length,
 			date,
 			time,
-			host: new mongoose.Types.ObjectId(), // change this to get data from URL
+			host: mongoose.Types.ObjectId(hostId), // change this to get data from URL
+			// host: hostId, // change this to get data from URL
 			hostName: taker,
 			participants: attendees,
 		})
 
-		console.log(newAttendance)
+		console.log('new::', newAttendance)
 		await newAttendance.save()
 		res.status(201).send(newAttendance)
 	} catch (error) {
+		console.log("not saved to db: " + error)
 		res.status(400).send(error)
 	}
 })
