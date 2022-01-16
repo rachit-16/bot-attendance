@@ -1,0 +1,147 @@
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
+/>
+<link rel="stylesheet" href="/css/ScheduledMeetings/ScheduleMeetings.css" />
+
+<div style="display: flex">
+	<!-- SIDEBAR -->
+
+	<%- include("../partials/sidebar.ejs"); %>
+
+	<!-- BOTS DASHBOARD -->
+
+	<div class="dashboard">
+		<div class="header">
+			<div id="header-box">
+				<h2>Welcome Back, <%= username %>!</h2>
+				<p>You can schedule meetings.</p>
+
+				<img id="illustration" src="/img/header-illust.svg" alt="header-illustration" />
+			</div>
+		</div>
+
+		<!-- MEETINGS TABLE -->
+
+		<div class="wrapper">
+			<h2>Scheduled Meetings</h2>
+
+			<!-- SEARCH -->
+			
+			<div class="dropdown">
+				<input type="text" placeholder="Search..">
+				<select id="heading" name="heading">
+					<option value="name/link">Name/Link</option>
+					<option value="date">Date</option>
+					<option value="time">Time</option>
+					<option value="creator">Creator</option>
+				  </select>
+			  </div>
+
+			<!-- TABLE -->
+
+			<div class="table">
+				<table>
+					<thead>
+						<tr>
+							<th>Meet Link</th>
+							<th>Date</th>
+							<th>Time</th>
+							<th>Creator</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% if(!meetings || meetings.length === 0){ %>
+						<tr>
+							<td>No scheduled meetings yet!</td>
+						</tr>
+						<% } else { %> <% meetings.forEach(meeting => { %>
+						<tr id="<%= meeting._id %>">
+							<td><%= meeting.link %></td>
+							<td><%= meeting.participantsCount %></td>
+							<td><%= meeting.date %></td>
+							<td><%= meeting.time %></td>
+							<td><%= meeting.hostName %></td>
+							<td>
+								<i onclick="editMeetingHandler(event)" class="bi bi-pencil-fill"></i> &nbsp
+								<i onclick="deleteMeetingHandler(event)" class="bi bi-trash-fill"></i>
+							</td>
+						</tr>
+						<% }) %> <% } %>
+					</tbody>
+				</table>
+			</div>
+
+			<button id="add-new-meeting-btn">Add New</button>
+
+			<!-- PAGINATION -->
+
+			<div class="pagination">
+				<ul>
+					<li class="prev">
+						<span><i class="bi bi-chevron-left"></i></span>
+					</li>
+					<li class="num">
+						<a href="#"><span>1</span></a>
+					</li>
+					<li class="num">
+						<a href="#"><span>2</span></a>
+					</li>
+					<li class="dot"><span>..</span></li>
+					<li class="num">
+						<a href="#"><span>4</span></a>
+					</li>
+					<li class="num">
+						<a href="#"><span>5</span></a>
+					</li>
+					<li class="dot"><span>..</span></li>
+					<li class="num">
+						<a href="#"><span>7</span></a>
+					</li>
+					<li class="next">
+						<span><i class="bi bi-chevron-right"></i></span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- EDIT MEETING POPUP -->
+
+	<div id="edit-meeting-popup" class="bg-modal">
+		<div class="modal-content">
+			<div class="close-edit">+</div>
+			<!-- <div class="icon">
+      <img src="/icon.svg" alt="">
+   </div> -->
+			<form id="edit-form">
+				<p id="edit_participant">Edit a Meeting</p>
+				<input type="date" name="date" placeholder="Enter Date" />
+				<input type="time" name="time" placeholder="Enter Time" />
+				<input type="text" name="hostName" placeholder="Enter Name of Creator" />
+				<button type="submit" id="edit-meeting-button">Save</button>
+			</form>
+		</div>
+	</div>
+
+	<!-- ADD NEW MEETING POPUP -->
+	<div id="new-meeting-popup" class="bg-modal">
+		<div class="modal-content">
+			<div class="close-new">+</div>
+			<!-- <div class="icon">
+           <img src="/icon.svg" alt="">
+        </div> -->
+			<form id="new-meeting-form">
+				<p id="add_meet">Add a Meeting</p>
+				<input type="text" name="link" placeholder="Enter Meet Link" />
+				<input type="date" name="date" placeholder="Enter Date" />
+				<input type="time" name="time" placeholder="Enter Time" />
+				<input type="text" name="hostName" placeholder="Enter Name of Creator" />
+				<button type="submit" id="add-meeting-button">Add</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script src="/js/Dashboard/dashboard.js"></script>
