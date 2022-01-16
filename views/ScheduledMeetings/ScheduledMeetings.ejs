@@ -2,7 +2,7 @@
 	rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
 />
-<link rel="stylesheet" href="/css/ScheduledMeetings/ScheduleMeetings.css" />
+<link rel="stylesheet" href="/css/ScheduledMeetings/ScheduledMeetings.css" />
 
 <div style="display: flex">
 	<!-- SIDEBAR -->
@@ -59,7 +59,7 @@
 						<% } else { %> <% meetings.forEach(meeting => { %>
 						<tr id="<%= meeting._id %>">
 							<td><%= meeting.link %></td>
-							<td><%= meeting.participantsCount %></td>
+							<!-- <td><%= meeting.participantsCount %></td> -->
 							<td><%= meeting.date %></td>
 							<td><%= meeting.time %></td>
 							<td><%= meeting.hostName %></td>

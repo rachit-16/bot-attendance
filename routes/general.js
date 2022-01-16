@@ -8,6 +8,34 @@ router.get('/about', (req, res) => {
 	res.render('AboutPage/about')
 })
 
+router.get('/meeting-details',async (req, res) => {
+
+	const finalUserMeetings =[]
+
+	let userMeetings
+	try {
+		userMeetings = await Meeting.find({ host: req.user._id })
+		// userMeetings = await Meeting.find({})
+	} catch (error) {
+		res.status(500).send(error)
+	}
+
+	userMeetings.forEach(element => {
+		
+		const elementDateTime = new Date(`${element.date}T${element.time}:00`)
+
+		if ((elementDateTime - new Date())> 0) {
+			finalUserMeetings.push(element)
+		}
+
+	});
+
+
+	// console.log(userMeetings);
+	
+	res.render('ScheduledMeetings/ScheduledMeetings', {username: req.user.username , meetings: finalUserMeetings})
+})
+
 router.post('/attendance/:hostId', async (req, res) => {
 	const { taker, date, time, data, url } = req.body
 	const { hostId } = req.params

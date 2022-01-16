@@ -16,7 +16,7 @@ async function meetbot(meetLink, hostId) {
 		console.log('hostId', hostId)
 
 		puppeteerExtra.use(stealthPlugin())
-		const browser = await puppeteerExtra.launch({ headless: false })
+		const browser = await puppeteerExtra.launch({ headless: true })
 
 		// const contextIncognito = await browser.createIncognitoBrowserContext();
 		// const page = await contextIncognito.newPage();
