@@ -2,6 +2,8 @@ const viewMeetingBtn = document.getElementById('view_meeting')
 const editMeetingBtn = document.getElementById('edit_meeting')
 const deleteMeetingBtn = document.getElementById('delete_meeting')
 const addNewMeetingBtn = document.getElementById('add-new-meeting-btn')
+const searchBarInput = document.querySelector('div.dropdown input')
+const searchBarTopic = document.querySelector('div.dropdown select#heading')
 
 const submitFormData = (form, url, ...options) => {
 	const formData = Object.fromEntries(new FormData(form))
@@ -44,17 +46,6 @@ const editMeetingHandler = (event) => {
 	editForm.addEventListener('submit', (event) => {
 		event.preventDefault()
 		submitFormData(editForm, url)
-		// 	const formData = Object.fromEntries(new FormData(editForm))
-
-		// 	fetch(url, {
-		// 		method: 'POST',
-		// 		body: JSON.stringify(formData),
-		// 		headers: {
-		// 			'Content-Type': 'application/json',
-		// 		},
-		// 	})
-		// 		.then((res) => (window.location = res.url))
-		// 		.catch((error) => console.error(error))
 	})
 }
 
@@ -89,16 +80,29 @@ addNewMeetingBtn.addEventListener('click', () => {
 	newMeetingForm.addEventListener('submit', (event) => {
 		event.preventDefault()
 		submitFormData(newMeetingForm, url)
-		// const formData = Object.fromEntries(new FormData(newMeetingForm))
-		// let redirect
-		// fetch(url, {
-		// 	method: 'POST',
-		// 	body: JSON.stringify(formData),
-		// 	headers: {
-		// 		'Content-Type': 'application/json',
-		// 	},
-		// })
-		// 	.then((res) => (redirect = res.url))
-		// 	.catch((error) => console.error(error))
 	})
 })
+
+// SEARCH DASHBOARD
+let Meetings = []
+const searchDashboard = async (event) => {
+	if (!Meetings || Meetings.length === 0) {
+		Meetings = await fetch('http://localhost:3000/api/user/meetings')
+			.then((data) => data.json())
+			.catch((error) => console.log(error))
+	}
+
+	const search = (topic, value) => {
+		return Meetings.filter((meeting) => {
+			if (topic === 'participantsCount') {
+				return meeting[topic] === +value
+			}
+			return meeting[topic].toLowerCase().includes(value.toLowerCase())
+		})
+	}
+
+	const value = event.target.value
+	const topic = searchBarTopic.value
+	const filteredMeetings = search(topic, value)
+	console.log(filteredMeetings)
+}
