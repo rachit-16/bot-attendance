@@ -11,7 +11,7 @@ router.get('/dashboard', async (req, res) => {
 
 	let userMeetings
 	try {
-		userMeetings = await Meeting.find({ host: req.user._id }).sort({ date: -1, time: -1 })
+		userMeetings = await Meeting.find({ host: req.user._id }).sort({ date: -1, time: -1 }).limit(6)
 		// userMeetings = await Meeting.find({})
 	} catch (error) {
 		res.status(500).send(error)

@@ -40,3 +40,23 @@ document.getElementById('add-participant-btn').addEventListener('click', functio
 		// 	.catch((error) => console.error(error))
 	})
 })
+
+// SEARCH
+const search = (event) => {
+	let value = event.target.value.toLowerCase()
+	let tab = document.querySelector('.table table')
+	let tr = tab.querySelectorAll('tr')
+
+	for (var i = 0; i < tr.length; ++i) {
+		let td = tr[i].getElementsByTagName('td')[0]
+		if (td) {
+			let textvalue = td.textContent || td.innerHTML
+
+			if (textvalue.toLowerCase().indexOf(value) > -1) {
+				tr[i].style.display = ''
+			} else {
+				tr[i].style.display = 'none'
+			}
+		}
+	}
+}
