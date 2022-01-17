@@ -9,26 +9,13 @@ router.get('/dashboard', async (req, res) => {
 	// res.send('logged in!')
 	console.log('dashboard')
 
-	const finalUserMeetings =[]
-
 	let userMeetings
 	try {
-		userMeetings = await Meeting.find({ host: req.user._id })
+		userMeetings = await Meeting.find({ host: req.user._id }).sort({ date: -1, time: -1 })
 		// userMeetings = await Meeting.find({})
 	} catch (error) {
 		res.status(500).send(error)
 	}
-
-	userMeetings.forEach(element => {
-		
-		const elementDateTime = new Date(`${element.date}T${element.time}:00`)
-
-		if ((elementDateTime - new Date())< 0) {
-			finalUserMeetings.push(element)
-		}
-
-	});
-
 	res.render('Dashboard/dashboard', { meetings: userMeetings, username: req.user.username })
 })
 

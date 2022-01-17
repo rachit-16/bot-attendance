@@ -8,9 +8,8 @@ router.get('/about', (req, res) => {
 	res.render('AboutPage/about')
 })
 
-router.get('/meeting-details',async (req, res) => {
-
-	const finalUserMeetings =[]
+router.get('/meeting-details', async (req, res) => {
+	const finalUserMeetings = []
 
 	let userMeetings
 	try {
@@ -20,20 +19,20 @@ router.get('/meeting-details',async (req, res) => {
 		res.status(500).send(error)
 	}
 
-	userMeetings.forEach(element => {
-		
+	userMeetings.forEach((element) => {
 		const elementDateTime = new Date(`${element.date}T${element.time}:00`)
 
-		if ((elementDateTime - new Date())> 0) {
+		if (elementDateTime - new Date() > 0) {
 			finalUserMeetings.push(element)
 		}
-
-	});
-
+	})
 
 	// console.log(userMeetings);
-	
-	res.render('ScheduledMeetings/ScheduledMeetings', {username: req.user.username , meetings: finalUserMeetings})
+
+	res.render('ScheduledMeetings/ScheduledMeetings', {
+		username: req.user.username,
+		meetings: finalUserMeetings,
+	})
 })
 
 router.post('/attendance/:hostId', async (req, res) => {
@@ -55,8 +54,7 @@ router.post('/attendance/:hostId', async (req, res) => {
 			participantsCount: attendees.length,
 			date,
 			time,
-			host: mongoose.Types.ObjectId(hostId), // change this to get data from URL
-			// host: hostId, // change this to get data from URL
+			host: mongoose.Types.ObjectId(hostId),
 			hostName: taker,
 			participants: attendees,
 		})
@@ -65,7 +63,7 @@ router.post('/attendance/:hostId', async (req, res) => {
 		await newAttendance.save()
 		res.status(201).send(newAttendance)
 	} catch (error) {
-		console.log("not saved to db: " + error)
+		console.log('not saved to db: ' + error)
 		res.status(400).send(error)
 	}
 })

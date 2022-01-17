@@ -27,16 +27,16 @@
 			<h2>Scheduled Meetings</h2>
 
 			<!-- SEARCH -->
-			
+
 			<div class="dropdown">
-				<input type="text" placeholder="Search..">
+				<input type="text" placeholder="Search.." />
 				<select id="heading" name="heading">
 					<option value="name/link">Name/Link</option>
 					<option value="date">Date</option>
 					<option value="time">Time</option>
 					<option value="creator">Creator</option>
-				  </select>
-			  </div>
+				</select>
+			</div>
 
 			<!-- TABLE -->
 
@@ -44,8 +44,8 @@
 				<table>
 					<thead>
 						<tr>
+							<th>Alias</th>
 							<th>Meet Link</th>
-							<th>Date</th>
 							<th>Time</th>
 							<th>Creator</th>
 							<th>Action</th>
@@ -58,11 +58,10 @@
 						</tr>
 						<% } else { %> <% meetings.forEach(meeting => { %>
 						<tr id="<%= meeting._id %>">
-							<td><%= meeting.link %></td>
-							<!-- <td><%= meeting.participantsCount %></td> -->
-							<td><%= meeting.date %></td>
+							<td><%= meeting.name %></td>
+							<td><%= meeting.meetLink %></td>
 							<td><%= meeting.time %></td>
-							<td><%= meeting.hostName %></td>
+							<td><%= meeting.ownerName %></td>
 							<td>
 								<i onclick="editMeetingHandler(event)" class="bi bi-pencil-fill"></i> &nbsp
 								<i onclick="deleteMeetingHandler(event)" class="bi bi-trash-fill"></i>

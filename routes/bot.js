@@ -37,7 +37,23 @@ router.get('/', async (req, res) => {
 			})
 			.execPopulate()
 
-		res.send(req.user.userBots)
+		const finalUserMeetings = []
+		req.user.userBots.forEach((element) => {
+			const elementDateTime = new Date(`${element.date}T${element.time}:00`)
+
+			if (elementDateTime - new Date() > 0) {
+				finalUserMeetings.push(element)
+			}
+		})
+
+		console.log('1->', req.user.userBots)
+		console.log('2->', finalUserMeetings)
+		console.log('3->', req.user)
+
+		res.render('ScheduledMeetings/scheduledMeetings', {
+			username: req.user.username,
+			meetings: finalUserMeetings,
+		})
 	} catch (error) {
 		res.status(500).send(error)
 	}

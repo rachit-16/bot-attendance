@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
 
 	if (sortBy) {
 		const parts = sortBy.split(':')
-		sort[parts[0]] = parts[1] === 'desc' ? -1 : 1
+		sort[parts[0]] = parts[1] === 'asc' ? 1 : -1
 	}
 
 	try {
@@ -36,6 +36,15 @@ router.get('/', async (req, res) => {
 				},
 			})
 			.execPopulate()
+
+		// console.log('-->', req.user.userMeetings)
+
+		// req.user.userMeetings.sort((x, y) => {
+		// 	const dateTime1 = new Date(`${x.date}T${x.time}:00`)
+		// 	const dateTime2 = new Date(`${y.date}T${y.time}:00`)
+
+		// 	return dateTime1 > dateTime2
+		// })
 
 		res.send(req.user.userMeetings)
 	} catch (error) {
