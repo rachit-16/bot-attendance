@@ -62,6 +62,22 @@ mongoose
 		console.error(error)
 	})
 
+// routes
+app.use('/api', generalRoutes)
+app.use('/api/auth', authRoutes)
+app.use('/api/user', isLoggedIn, userRoutes)
+app.use('/api/user/meetings', isLoggedIn, meetingRoutes)
+app.use('/api/user/bots', isLoggedIn, botRoutes)
+
+app.get('/', (req, res) => {
+	console.log('redirecting to login')
+	res.redirect('/api/auth/login')
+})
+
+app.listen(PORT, () => {
+	console.log(`Server is up on port ${PORT}`)
+})
+
 //////////////////////////////// bot///////////////////////////////
 // for meet-bot
 // const MeetBot = require('./meet-bot')
@@ -97,10 +113,10 @@ const callBotFn = (meetLink, id, hostId) => {
 	CurrentmeetDetails.forEach((element) => {
 		const elementDateTime = new Date(`${element.date}T${element.time}:00`)
 		// console.log("process 2 started at " , new Date().toString());
-		console.log("element",element)
+		console.log('element', element)
 		// if (element.id === id) {
-		console.log(elementDateTime);
-		if ((elementDateTime - new Date() )< 1*60*1000) {
+		console.log(elementDateTime)
+		if (elementDateTime - new Date() < 1 * 60 * 1000) {
 			// remaining time less than 1 min
 			console.log('in child')
 
@@ -133,62 +149,41 @@ const callBotFn = (meetLink, id, hostId) => {
 	})
 }
 
-const task = new Task('simple task', async () => {
-	// task to be done after every interval
-	const data = await Meeting.find({})
-	// console.log('data[0]:::', data[0])
+// const task = new Task('simple task', async () => {
+// 	// task to be done after every interval
+// 	const data = await Meeting.find({})
+// 	// console.log('data[0]:::', data[0])
 
-	CurrentmeetDetails = []
-	console.log('in')
-	data.forEach((element) => {
-		// console.log("data : " + data);
+// 	CurrentmeetDetails = []
+// 	console.log('in')
+// 	data.forEach((element) => {
+// 		// console.log("data : " + data);
 
-		const dateTime = new Date(`${element.date}T${element.time}:00`)
+// 		const dateTime = new Date(`${element.date}T${element.time}:00`)
 
-		if (dateTime - new Date() < 15 * 60 * 1000 && dateTime - new Date() > 0) {
-			// time & Date comparison
-			CurrentmeetDetails.push({
-				id: `${Math.random() * 1000000}`,
-				date: element.date,
-				time: element.time,
-				link: element.link,
-				hostId: element.host,
-				called: false,
-			})
+// 		if (dateTime - new Date() < 15 * 60 * 1000 && dateTime - new Date() > 0) {
+// 			// time & Date comparison
+// 			CurrentmeetDetails.push({
+// 				id: `${Math.random() * 1000000}`,
+// 				date: element.date,
+// 				time: element.time,
+// 				link: element.link,
+// 				hostId: element.host,
+// 				called: false,
+// 			})
 
-			console.log('meeting sheduled at: ', dateTime.toString())
-			console.log('cuurent::: ', CurrentmeetDetails)
-			const min = dateTime.getMinutes()
-			const hr = dateTime.getHours()
+// 			console.log('meeting sheduled at: ', dateTime.toString())
+// 			console.log('cuurent::: ', CurrentmeetDetails)
+// 			const min = dateTime.getMinutes()
+// 			const hr = dateTime.getHours()
 
-			const job = schedule.scheduleJob(`00 ${min} ${hr} * * *`, () => {
-				callBotFn(element.link, element.id, element.host)
-			})
-		}
-	})
-})
-const job = new SimpleIntervalJob({ seconds: 10 }, task)
+// 			const job = schedule.scheduleJob(`00 ${min} ${hr} * * *`, () => {
+// 				callBotFn(element.link, element.id, element.host)
+// 			})
+// 		}
+// 	})
+// })
+// const job = new SimpleIntervalJob({ seconds: 10 }, task)
 
-scheduler.addSimpleIntervalJob(job)
+// scheduler.addSimpleIntervalJob(job)
 ///////////////////////////////////////////////////////////////////
-
-// routes
-// app.use('/api/user', userRoutes)
-// app.use('/api/user/meetings', meetingRoutes)
-// app.use('/api/user/bots', botRoutes)
-app.use('/api', generalRoutes)
-app.use('/api/auth', authRoutes)
-app.use('/api/user', isLoggedIn, userRoutes)
-app.use('/api/user/meetings', isLoggedIn, meetingRoutes)
-app.use('/api/user/bots', isLoggedIn, botRoutes)
-
-app.get('/', (req, res) => {
-	console.log('redirecting to login')
-	res.redirect('/api/auth/login')
-})
-
-app.listen(PORT, () => {
-	console.log(`Server is up on port ${PORT}`)
-})
-
-// node --print-bytecode code-meet.js
