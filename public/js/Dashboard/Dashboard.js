@@ -2,7 +2,6 @@ const viewMeetingBtn = document.getElementById('view_meeting')
 const editMeetingBtn = document.getElementById('edit_meeting')
 const deleteMeetingBtn = document.getElementById('delete_meeting')
 const addNewMeetingBtn = document.getElementById('add-new-meeting-btn')
-const searchBarInput = document.querySelector('div.dropdown input')
 const searchBarTopic = document.querySelector('div.dropdown select#heading')
 
 const submitFormData = (form, url, ...options) => {
@@ -84,25 +83,125 @@ addNewMeetingBtn.addEventListener('click', () => {
 })
 
 // SEARCH DASHBOARD
-let Meetings = []
 const searchDashboard = async (event) => {
-	if (!Meetings || Meetings.length === 0) {
-		Meetings = await fetch('http://localhost:3000/api/user/meetings')
-			.then((data) => data.json())
-			.catch((error) => console.log(error))
+	if (event.keyCode === 13) {
+		const value = event.target.value.toLowerCase()
+		const topic = searchBarTopic.value
+		window.location = `http://localhost:3000/api/user/meetings?search=${topic}:${value}`
 	}
-
-	const search = (topic, value) => {
-		return Meetings.filter((meeting) => {
-			if (topic === 'participantsCount') {
-				return meeting[topic] === +value
-			}
-			return meeting[topic].toLowerCase().includes(value.toLowerCase())
-		})
-	}
-
-	const value = event.target.value
-	const topic = searchBarTopic.value
-	const filteredMeetings = search(topic, value)
-	console.log(filteredMeetings)
 }
+
+/*
+const searchDashboard = (event) => {
+	let value = event.target.value.toLowerCase()
+	let tab = document.querySelector('.table table')
+	let tr = tab.querySelectorAll('tr')
+
+	if (searchBarTopic.value == 'link') {
+		for (var i = 0; i < tr.length; ++i) {
+			let td = tr[i].getElementsByTagName('td')[0]
+			if (td) {
+				let textvalue = td.textContent || td.innerHTML
+
+				if (textvalue.toLowerCase().indexOf(value) > -1) {
+					tr[i].style.display = ''
+				} else {
+					tr[i].style.display = 'none'
+				}
+			}
+		}
+	} else if (searchBarTopic.value == 'participantsCount') {
+		for (var i = 0; i < tr.length; ++i) {
+			let td = tr[i].getElementsByTagName('td')[1]
+			if (td) {
+				let textvalue = td.textContent || td.innerHTML
+
+				if (textvalue.toLowerCase().indexOf(value) > -1) {
+					tr[i].style.display = ''
+				} else {
+					tr[i].style.display = 'none'
+				}
+			}
+		}
+	} else if (searchBarTopic.value == 'date') {
+		for (var i = 0; i < tr.length; ++i) {
+			let td = tr[i].getElementsByTagName('td')[2]
+			if (td) {
+				let textvalue = td.textContent || td.innerHTML
+
+				if (textvalue.toLowerCase().indexOf(value) > -1) {
+					tr[i].style.display = ''
+				} else {
+					tr[i].style.display = 'none'
+				}
+			}
+		}
+	} else if (searchBarTopic.value == 'time') {
+		for (var i = 0; i < tr.length; ++i) {
+			let td = tr[i].getElementsByTagName('td')[3]
+			if (td) {
+				let textvalue = td.textContent || td.innerHTML
+
+				if (textvalue.toLowerCase().indexOf(value) > -1) {
+					tr[i].style.display = ''
+				} else {
+					tr[i].style.display = 'none'
+				}
+			}
+		}
+	} else if (searchBarTopic.value == 'hostName') {
+		for (var i = 0; i < tr.length; ++i) {
+			let td = tr[i].getElementsByTagName('td')[4]
+			if (td) {
+				let textvalue = td.textContent || td.innerHTML
+
+				if (textvalue.toLowerCase().indexOf(value) > -1) {
+					tr[i].style.display = ''
+				} else {
+					tr[i].style.display = 'none'
+				}
+			}
+		}
+	}
+}
+*/
+
+// PAGINATION
+const prev = document.querySelector('.pagination li.prev')
+const next = document.querySelector('.pagination li.next')
+const pages = document.querySelectorAll('.pagination li.num')
+const pageLimit = 6
+
+const getCurrentPage = () => {
+	const { limit, skip } = Object.fromEntries(new URLSearchParams(window.location.search))
+	return skip / limit || 0
+}
+
+const gotoPage = (pageNo) => {
+	window.location = `http://localhost:3000/api/user/meetings?limit=${pageLimit}&skip=${
+		pageLimit * pageNo
+	}`
+}
+
+prev.addEventListener('click', async () => {
+	let currentPage = getCurrentPage()
+	if (currentPage === 0) {
+		return
+	}
+	console.log('cp: ', currentPage)
+	gotoPage(currentPage - 1)
+})
+
+next.addEventListener('click', async () => {
+	let currentPage = getCurrentPage()
+	console.log('cp: ', currentPage)
+	gotoPage(currentPage + 1)
+})
+
+pages.forEach((page, idx) => {
+	page.addEventListener('click', () => {
+		let currentPage = getCurrentPage()
+		console.log('cp: ', currentPage)
+		gotoPage(idx)
+	})
+})

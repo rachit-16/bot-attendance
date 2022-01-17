@@ -12,30 +12,35 @@ router.get('/', async (req, res) => {
 	const { search, limit, skip, sortBy } = req.query
 
 	const match = {}
-	const sort = {}
+	let sort = { date: -1, time: -1 }
 
 	if (search) {
 		const parts = search.split(':')
-		match[parts[0]] = parts[1]
+		match[parts[0]] = { $regex: parts[1], $options: 'i' }
 	}
 
 	if (sortBy) {
+		sort = {}
 		const parts = sortBy.split(':')
 		sort[parts[0]] = parts[1] === 'asc' ? 1 : -1
 	}
 
 	try {
-		await req.user
-			.populate({
-				path: 'userMeetings',
-				match,
-				options: {
-					limit: parseInt(limit),
-					skip: parseInt(skip),
-					sort,
-				},
-			})
-			.execPopulate()
+		const userMeetings = await Meeting.find({ host: req.user._id, ...match })
+			.sort(sort)
+			.skip(parseInt(skip))
+			.limit(parseInt(limit))
+
+		// .populate({
+		// 	path: 'userMeetings',
+		// 	match,
+		// 	options: {
+		// 		limit: parseInt(limit),
+		// 		skip: parseInt(skip),
+		// 		sort,
+		// 	},
+		// })
+		// .execPopulate()
 
 		// console.log('-->', req.user.userMeetings)
 
@@ -46,7 +51,7 @@ router.get('/', async (req, res) => {
 		// 	return dateTime1 > dateTime2
 		// })
 
-		res.send(req.user.userMeetings)
+		res.render('Dashboard/dashboard', { meetings: userMeetings, username: req.user.username })
 	} catch (error) {
 		res.status(500).send(error)
 	}
