@@ -172,36 +172,41 @@ const next = document.querySelector('.pagination li.next')
 const pages = document.querySelectorAll('.pagination li.num')
 const pageLimit = 6
 
+const getParams = () => Object.fromEntries(new URLSearchParams(window.location.search))
+
 const getCurrentPage = () => {
-	const { limit, skip } = Object.fromEntries(new URLSearchParams(window.location.search))
+	const { limit, skip } = getParams()
 	return skip / limit || 0
 }
 
-const gotoPage = (pageNo) => {
-	window.location = `http://localhost:3000/api/user/meetings?limit=${pageLimit}&skip=${
+const gotoPage = (pageNo, search) => {
+	window.location = `http://localhost:3000/api/user/meetings?search=${search}&limit=${pageLimit}&skip=${
 		pageLimit * pageNo
 	}`
 }
 
 prev.addEventListener('click', async () => {
 	let currentPage = getCurrentPage()
+	const { search } = getParams()
 	if (currentPage === 0) {
 		return
 	}
 	console.log('cp: ', currentPage)
-	gotoPage(currentPage - 1)
+	gotoPage(currentPage - 1, search)
 })
 
 next.addEventListener('click', async () => {
 	let currentPage = getCurrentPage()
+	const { search } = getParams()
 	console.log('cp: ', currentPage)
-	gotoPage(currentPage + 1)
+	gotoPage(currentPage + 1, search)
 })
 
 pages.forEach((page, idx) => {
 	page.addEventListener('click', () => {
 		let currentPage = getCurrentPage()
+		const { search } = getParams()
 		console.log('cp: ', currentPage)
-		gotoPage(idx)
+		gotoPage(idx, search)
 	})
 })

@@ -131,8 +131,7 @@ async function meetbot(meetLink, hostId) {
 						}
 						setForm({ type: 'hidden', name: 'you', value: you })
 						setForm({ type: 'hidden', name: 'taker', value: taker })
-						setForm({ type: 'hidden', name: 'date', value: new Date().toLocaleDateString() })
-						setForm({ type: 'hidden', name: 'time', value: new Date().toLocaleTimeString() })
+						setForm({ type: 'hidden', name: 'dateTime', value: new Date() })
 						setForm({ type: 'hidden', name: 'data', value: c })
 						setForm({ type: 'hidden', name: 'url', value: window.location.href })
 

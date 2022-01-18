@@ -6,17 +6,18 @@ const router = express.Router()
 
 // access dashboard
 router.get('/dashboard', async (req, res) => {
+	res.status(404).send()
 	// res.send('logged in!')
-	console.log('dashboard')
+	// console.log('dashboard')
 
-	let userMeetings
-	try {
-		userMeetings = await Meeting.find({ host: req.user._id }).sort({ date: -1, time: -1 }).limit(6)
-		// userMeetings = await Meeting.find({})
-	} catch (error) {
-		res.status(500).send(error)
-	}
-	res.render('Dashboard/dashboard', { meetings: userMeetings, username: req.user.username })
+	// let userMeetings
+	// try {
+	// 	userMeetings = await Meeting.find({ host: req.user._id }).sort({ date: -1, time: -1 }).limit(6)
+	// 	// userMeetings = await Meeting.find({})
+	// } catch (error) {
+	// 	res.status(500).send(error)
+	// }
+	// res.render('Dashboard/dashboard', { meetings: userMeetings, username: req.user.username })
 })
 
 // access user profile
