@@ -20,11 +20,19 @@ const MeetingSchema = new mongoose.Schema({
 	},
 	date: {
 		type: String,
-		default: () => new Date().toLocaleDateString(),
+		default: () => {
+			const dateTime = new Date()
+			return [dateTime.getFullYear(), '-', dateTime.getMonth() + 1, '-', dateTime.getDate()].join(
+				''
+			)
+		},
 	},
 	time: {
 		type: String,
-		default: () => new Date().toLocaleTimeString(),
+		default: () => {
+			const dateTime = new Date()
+			return [dateTime.getHours(), ':', dateTime.getMinutes()].join('')
+		},
 	},
 	host: {
 		type: mongoose.Schema.Types.ObjectId,

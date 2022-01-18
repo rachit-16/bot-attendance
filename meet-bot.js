@@ -16,7 +16,7 @@ async function meetbot(meetLink, hostId) {
 		console.log('hostId', hostId)
 
 		puppeteerExtra.use(stealthPlugin())
-		const browser = await puppeteerExtra.launch({ headless: true })
+		const browser = await puppeteerExtra.launch({ headless: false })
 
 		// const contextIncognito = await browser.createIncognitoBrowserContext();
 		// const page = await contextIncognito.newPage();
@@ -27,7 +27,7 @@ async function meetbot(meetLink, hostId) {
 		await page.goto('https://accounts.google.com/signin/v2/identifier')
 		await page.type('[type="email"]', process.env.gmailUsername)
 		await page.click('#identifierNext')
-		await page.waitForTimeout(3000)
+		await page.waitForTimeout(5000)
 
 		await page.type('[type="password"]', process.env.password)
 		await page.click('#passwordNext')
@@ -131,8 +131,7 @@ async function meetbot(meetLink, hostId) {
 						}
 						setForm({ type: 'hidden', name: 'you', value: you })
 						setForm({ type: 'hidden', name: 'taker', value: taker })
-						setForm({ type: 'hidden', name: 'date', value: new Date().toLocaleDateString() })
-						setForm({ type: 'hidden', name: 'time', value: new Date().toLocaleTimeString() })
+						setForm({ type: 'hidden', name: 'dateTime', value: new Date() })
 						setForm({ type: 'hidden', name: 'data', value: c })
 						setForm({ type: 'hidden', name: 'url', value: window.location.href })
 
