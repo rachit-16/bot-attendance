@@ -1,5 +1,7 @@
 const express = require('express')
 const Bot = require('../models/bot')
+const Meeting = require('../models/meeting')
+
 
 const router = express.Router()
 
@@ -46,14 +48,14 @@ router.get('/', async (req, res) => {
 			}
 		})
 
-		console.log('1->', req.user.userBots)
-		console.log('2->', finalUserMeetings)
-		console.log('3->', req.user)
+		// console.log('1->', req.user.userBots)
+		// console.log('2->', finalUserMeetings)
+		// console.log('3->', req.user)
 
-		res.render('ScheduledMeetings/scheduledMeetings', {
-			username: req.user.username,
-			meetings: finalUserMeetings,
-		})
+		// res.render('ScheduledMeetings/scheduledMeetings', {
+		// 	username: req.user.username,
+		// 	meetings: finalUserMeetings,
+		// })
 	} catch (error) {
 		res.status(500).send(error)
 	}
@@ -135,6 +137,36 @@ router.delete('/deleteAll', async (req, res) => {
 	} catch (error) {
 		res.status(500).send(error)
 	}
+})
+
+// sheuled meetings 
+
+router.get('/sheduled', async (req, res) => {
+
+	const finalUserMeetings = []
+
+	let userMeetings
+	try {
+		userMeetings = await Meeting.find({ host: req.user._id })
+		// userMeetings = await Meeting.find({})
+	} catch (error) {
+		res.status(500).send(error)
+	}
+
+	userMeetings.forEach(element => {
+
+		const elementDateTime = new Date(`${element.date}T${element.time}:00`)
+
+		if ((elementDateTime - new Date()) > 0) {
+			finalUserMeetings.push(element)
+		}
+
+	});
+
+
+	// console.log(userMeetings);
+
+	res.render('ScheduledMeetings/ScheduledMeetings', { username: req.user.username, meetings: finalUserMeetings })
 })
 
 module.exports = router

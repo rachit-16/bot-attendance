@@ -149,41 +149,41 @@ const callBotFn = (meetLink, id, hostId) => {
 	})
 }
 
-// const task = new Task('simple task', async () => {
-// 	// task to be done after every interval
-// 	const data = await Meeting.find({})
-// 	// console.log('data[0]:::', data[0])
+const task = new Task('simple task', async () => {
+	// task to be done after every interval
+	const data = await Meeting.find({})
+	// console.log('data[0]:::', data[0])
 
-// 	CurrentmeetDetails = []
-// 	console.log('in')
-// 	data.forEach((element) => {
-// 		// console.log("data : " + data);
+	CurrentmeetDetails = []
+	console.log('in')
+	data.forEach((element) => {
+		// console.log("data : " + data);
 
-// 		const dateTime = new Date(`${element.date}T${element.time}:00`)
+		const dateTime = new Date(`${element.date}T${element.time}:00`)
 
-// 		if (dateTime - new Date() < 15 * 60 * 1000 && dateTime - new Date() > 0) {
-// 			// time & Date comparison
-// 			CurrentmeetDetails.push({
-// 				id: `${Math.random() * 1000000}`,
-// 				date: element.date,
-// 				time: element.time,
-// 				link: element.link,
-// 				hostId: element.host,
-// 				called: false,
-// 			})
+		if (dateTime - new Date() < 15 * 60 * 1000 && dateTime - new Date() > 0) {
+			// time & Date comparison
+			CurrentmeetDetails.push({
+				id: `${Math.random() * 1000000}`,
+				date: element.date,
+				time: element.time,
+				link: element.link,
+				hostId: element.host,
+				called: false,
+			})
 
-// 			console.log('meeting sheduled at: ', dateTime.toString())
-// 			console.log('cuurent::: ', CurrentmeetDetails)
-// 			const min = dateTime.getMinutes()
-// 			const hr = dateTime.getHours()
+			console.log('meeting sheduled at: ', dateTime.toString())
+			console.log('cuurent::: ', CurrentmeetDetails)
+			const min = dateTime.getMinutes()
+			const hr = dateTime.getHours()
 
-// 			const job = schedule.scheduleJob(`00 ${min} ${hr} * * *`, () => {
-// 				callBotFn(element.link, element.id, element.host)
-// 			})
-// 		}
-// 	})
-// })
-// const job = new SimpleIntervalJob({ seconds: 10 }, task)
+			const job = schedule.scheduleJob(`00 ${min} ${hr} * * *`, () => {
+				callBotFn(element.link, element.id, element.host)
+			})
+		}
+	})
+})
+const job = new SimpleIntervalJob({ seconds: 10 }, task)
 
-// scheduler.addSimpleIntervalJob(job)
+scheduler.addSimpleIntervalJob(job)
 ///////////////////////////////////////////////////////////////////
