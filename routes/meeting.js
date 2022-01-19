@@ -9,7 +9,7 @@ const router = express.Router()
 // GET /api/user/meetings?sortBy=date:desc
 // !! REVIEW SEARCH !!
 router.get('/', async (req, res) => {
-	const { search, limit = '6', skip = '0', sortBy } = req.query
+	const { search, limit = '6', skip = '0', sortBy, scheduled = 'false' } = req.query
 
 	const match = {}
 	let sort = { date: -1, time: -1 }
@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
 	}
 
 	try {
-		const userMeetings = await Meeting.find({ host: req.user._id, ...match })
+		let userMeetings = await Meeting.find({ host: req.user._id, ...match })
 			.sort(sort)
 			.skip(parseInt(skip))
 			.limit(parseInt(limit))
@@ -50,6 +50,20 @@ router.get('/', async (req, res) => {
 
 		// 	return dateTime1 > dateTime2
 		// })
+
+		if (scheduled == 'true') {
+			userMeetings = userMeetings.filter((element) => {
+				const elementDateTime = new Date(`${element.date}T${element.time}:00`)
+				if (elementDateTime - new Date() > 0) {
+					return true
+				}
+			})
+			res.render('ScheduledMeetings/ScheduledMeetings', {
+				meetings: userMeetings,
+				username: req.user.username,
+			})
+			return
+		}
 
 		res.render('Dashboard/dashboard', { meetings: userMeetings, username: req.user.username })
 	} catch (error) {
