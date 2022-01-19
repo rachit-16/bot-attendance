@@ -32,14 +32,17 @@
 	width: 95%;
 	height: 90%;
 	margin: auto;
-	background: linear-gradient(268.7deg,
-			rgba(191, 225, 255, 0.6) 0.05%,
-			rgba(238, 239, 255, 0.6) 99.95%);
+	background: linear-gradient(
+		268.7deg,
+		rgba(191, 225, 255, 0.6) 0.05%,
+		rgba(238, 239, 255, 0.6) 99.95%
+	);
 	backdrop-filter: blur(3px);
 	border-radius: 41.9417px 0px;
 }
 
-#header-box>p, h2 {
+#header-box > p,
+h2 {
 	position: relative;
 	top: 30%;
 	left: 5%;
@@ -69,7 +72,7 @@
 	left: 0%;
 }
 
-.wrapper>input {
+.wrapper > input {
 	display: inline;
 }
 
@@ -79,7 +82,7 @@
 	display: inline;
 }
 
-.dropdown>input {
+.dropdown > input {
 	border-radius: 3px;
 	float: right;
 	display: inline;
@@ -89,12 +92,12 @@
 	border: 1px solid #e5e5e5;
 }
 
-.dropdown>input:focus-visible{
+.dropdown > input:focus-visible {
 	border: 1px solid rgb(117, 117, 117);
 	outline: none;
 }
 
-.dropdown>select {
+.dropdown > select {
 	border-radius: 3px;
 	margin: 0rem 1rem 1rem 0rem;
 	float: right;
@@ -103,7 +106,7 @@
 	font-size: inherit;
 }
 
-.dropdown>select:focus-visible {
+.dropdown > select:focus-visible {
 	border: 1px solid rgb(117, 117, 117);
 }
 
@@ -179,7 +182,7 @@ td {
 	width: 1.5rem;
 }
 
-.pagination ul li a {
+.pagination ul li span {
 	text-decoration: none;
 	color: #000;
 	padding: 0.2rem 0.5rem;
@@ -187,9 +190,10 @@ td {
 }
 
 .pagination ul li.active,
-.pagination ul li a:hover {
+.pagination ul li span:hover {
 	color: #0099ff;
 	background-color: #d8edff;
+	cursor: pointer;
 }
 
 .pagination ul li i {
@@ -348,7 +352,7 @@ input {
 #add_meet {
 	color: #666666;
 	font-weight: bold;
-	margin:5%;
+	margin: 5%;
 }
 .close-new {
 	position: absolute;
@@ -358,7 +362,6 @@ input {
 	transform: rotate(45deg);
 	cursor: pointer;
 }
-
 
 /* 
 /*----- RESPONSIVNESS -----*

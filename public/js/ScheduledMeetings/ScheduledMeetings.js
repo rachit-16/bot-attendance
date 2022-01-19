@@ -18,15 +18,6 @@ const submitFormData = (form, url, ...options) => {
 		.catch((error) => console.error(error))
 }
 
-// VIEW MEETING
-const viewMeetingHandler = (event) => {
-	const meetingRow = event.target.parentElement.parentElement
-	const meetingId = meetingRow.getAttribute('id')
-	fetch(`http://localhost:3000/api/user/meetings/details/${meetingId}`)
-		.then((res) => (window.location = res.url))
-		.catch((error) => console.error(error))
-}
-
 // EDIT MEETING
 const editMeetingHandler = (event) => {
 	const meetingRow = event.target.parentElement.parentElement
@@ -87,84 +78,12 @@ const searchDashboard = async (event) => {
 	if (event.keyCode === 13) {
 		const value = event.target.value.toLowerCase()
 		const topic = searchBarTopic.value
-		window.location = `http://localhost:3000/api/user/meetings?search=${topic}:${value}`
+		if (!value) {
+			return
+		}
+		window.location = `http://localhost:3000/api/user/meetings?search=${topic}:${value}&scheduled=true`
 	}
 }
-
-/*
-const searchDashboard = (event) => {
-	let value = event.target.value.toLowerCase()
-	let tab = document.querySelector('.table table')
-	let tr = tab.querySelectorAll('tr')
-
-	if (searchBarTopic.value == 'link') {
-		for (var i = 0; i < tr.length; ++i) {
-			let td = tr[i].getElementsByTagName('td')[0]
-			if (td) {
-				let textvalue = td.textContent || td.innerHTML
-
-				if (textvalue.toLowerCase().indexOf(value) > -1) {
-					tr[i].style.display = ''
-				} else {
-					tr[i].style.display = 'none'
-				}
-			}
-		}
-	} else if (searchBarTopic.value == 'participantsCount') {
-		for (var i = 0; i < tr.length; ++i) {
-			let td = tr[i].getElementsByTagName('td')[1]
-			if (td) {
-				let textvalue = td.textContent || td.innerHTML
-
-				if (textvalue.toLowerCase().indexOf(value) > -1) {
-					tr[i].style.display = ''
-				} else {
-					tr[i].style.display = 'none'
-				}
-			}
-		}
-	} else if (searchBarTopic.value == 'date') {
-		for (var i = 0; i < tr.length; ++i) {
-			let td = tr[i].getElementsByTagName('td')[2]
-			if (td) {
-				let textvalue = td.textContent || td.innerHTML
-
-				if (textvalue.toLowerCase().indexOf(value) > -1) {
-					tr[i].style.display = ''
-				} else {
-					tr[i].style.display = 'none'
-				}
-			}
-		}
-	} else if (searchBarTopic.value == 'time') {
-		for (var i = 0; i < tr.length; ++i) {
-			let td = tr[i].getElementsByTagName('td')[3]
-			if (td) {
-				let textvalue = td.textContent || td.innerHTML
-
-				if (textvalue.toLowerCase().indexOf(value) > -1) {
-					tr[i].style.display = ''
-				} else {
-					tr[i].style.display = 'none'
-				}
-			}
-		}
-	} else if (searchBarTopic.value == 'hostName') {
-		for (var i = 0; i < tr.length; ++i) {
-			let td = tr[i].getElementsByTagName('td')[4]
-			if (td) {
-				let textvalue = td.textContent || td.innerHTML
-
-				if (textvalue.toLowerCase().indexOf(value) > -1) {
-					tr[i].style.display = ''
-				} else {
-					tr[i].style.display = 'none'
-				}
-			}
-		}
-	}
-}
-*/
 
 // PAGINATION
 const prev = document.querySelector('.pagination li.prev')
@@ -180,7 +99,9 @@ const getCurrentPage = () => {
 }
 
 const gotoPage = (pageNo, search) => {
-	let url = `http://localhost:3000/api/user/meetings?limit=${pageLimit}&skip=${pageLimit * pageNo}`
+	let url = `http://localhost:3000/api/user/meetings?scheduled=true&limit=${pageLimit}&skip=${
+		pageLimit * pageNo
+	}`
 
 	if (search) {
 		url += `&search=${search}`
