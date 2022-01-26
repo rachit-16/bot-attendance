@@ -8,6 +8,10 @@ router.get('/about', (req, res) => {
 	res.render('AboutPage/about')
 })
 
+router.get('/contributers', (req, res) => {
+	res.render('Contributer/Contributer')
+})
+
 router.get('/meeting-details', async (req, res) => {
 	const finalUserMeetings = []
 
