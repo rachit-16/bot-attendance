@@ -2,6 +2,8 @@ const express = require('express')
 const Meeting = require('../models/meeting')
 
 const router = express.Router()
+const dotenv = require('dotenv')
+
 
 dotenv.config()
 
