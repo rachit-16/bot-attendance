@@ -6,7 +6,7 @@ const toSignup = document.querySelector('#create_a_new_account')
 loginButton.addEventListener('click', () => {
 	const username = usernameInput.value
 	const password = passwordInput.value
-	fetch('http://localhost:3000/api/auth/login', {
+	fetch('/api/auth/login', {
 		method: 'POST',
 		body: JSON.stringify({
 			username: username,
@@ -21,5 +21,5 @@ loginButton.addEventListener('click', () => {
 })
 
 toSignup.addEventListener('click', () => {
-	window.location = 'http://localhost:3000/api/auth/signup'
+	window.location = '/api/auth/signup'
 })
