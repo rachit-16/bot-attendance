@@ -13,7 +13,7 @@ signupButton.addEventListener('click', () => {
 	const password = passwordInput.value
 	const password2 = password2Input.value
 
-	fetch('http://localhost:3000/api/auth/signup', {
+	fetch('/api/auth/signup', {
 		method: 'POST',
 		body: JSON.stringify({
 			name,
@@ -31,5 +31,5 @@ signupButton.addEventListener('click', () => {
 })
 
 toSignin.addEventListener('click', () => {
-	window.location = 'http://localhost:3000/api/auth/login'
+	window.location = '/api/auth/login'
 })
