@@ -158,7 +158,6 @@ const task = new Task('simple task', async () => {
 	console.log('in')
 	data.forEach((element) => {
 		// console.log("data : " + data);
-
 		const dateTime = new Date(`${element.date}T${element.time}:00`)
 
 		if (dateTime - new Date() < 15 * 60 * 1000 && dateTime - new Date() > 0) {

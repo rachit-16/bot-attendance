@@ -9,7 +9,7 @@ const router = express.Router()
 // GET /api/user/meetings?sortBy=date:desc
 // !! REVIEW SEARCH !!
 router.get('/', async (req, res) => {
-	const { search, limit, skip, sortBy } = req.query
+	const { search, limit = '6', skip = '0', sortBy, scheduled = 'false' } = req.query
 
 	const match = {}
 	let sort = { date: -1, time: -1 }
@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
 	}
 
 	try {
-		const userMeetings = await Meeting.find({ host: req.user._id, ...match })
+		let userMeetings = await Meeting.find({ host: req.user._id, ...match })
 			.sort(sort)
 			.skip(parseInt(skip))
 			.limit(parseInt(limit))
@@ -50,6 +50,20 @@ router.get('/', async (req, res) => {
 
 		// 	return dateTime1 > dateTime2
 		// })
+
+		if (scheduled == 'true') {
+			userMeetings = userMeetings.filter((element) => {
+				const elementDateTime = new Date(`${element.date}T${element.time}:00`)
+				if (elementDateTime - new Date() > 0) {
+					return true
+				}
+			})
+			res.render('ScheduledMeetings/ScheduledMeetings', {
+				meetings: userMeetings,
+				username: req.user.username,
+			})
+			return
+		}
 
 		res.render('Dashboard/dashboard', { meetings: userMeetings, username: req.user.username })
 	} catch (error) {
@@ -94,11 +108,18 @@ router.post('/edit/:meetId', async (req, res) => {
 		}
 
 		// validate date, time
+		updates.forEach((update) => {
+			const newVal = req.body[update]
+			if (newVal) {
+				meeting[update] = newVal
+			}
+		})
 
-		updates.forEach((update) => (meeting[update] = req.body[update]))
 		await meeting.save()
 		console.log('updated!')
-		res.redirect('http://localhost:3000/api/user/dashboard')
+		// console.log('edit req->', req.url, req.baseUrl, req.originalUrl)
+		// console.log('edit req->2', req.headers, req.query)
+		res.redirect(req.headers.referer)
 	} catch (error) {
 		res.status(400).send(error)
 	}
@@ -120,6 +141,8 @@ router.post('/:meetId/addParticipant', async (req, res) => {
 		meeting.participantsCount++
 		await meeting.save()
 		console.log('added!')
+		console.log('add req->', req.url, req.baseUrl, req.originalUrl)
+		console.log('add req->2', req.headers, req.query)
 		res.redirect(`http://localhost:3000/api/user/meetings/details/${meetId}`)
 	} catch (error) {
 		res.status(400).send(error)
@@ -131,11 +154,17 @@ router.post('/new', async (req, res) => {
 	const { link, date, time, hostName } = req.body
 
 	try {
-		const newMeeting = new Meeting({ link, date, time, hostName, host: req.user._id })
+		const newMeeting = new Meeting({
+			link,
+			hostName,
+			date: date || undefined,
+			time: time || undefined,
+			host: req.user._id,
+		})
 		console.log(newMeeting)
 		await newMeeting.save()
 		// res.status(201).send(newMeeting)
-		res.redirect('http://localhost:3000/api/user/dashboard')
+		res.redirect(req.headers.referer)
 	} catch (error) {
 		res.status(400).send(error)
 	}
@@ -155,7 +184,9 @@ router.delete('/delete/:meetId', async (req, res) => {
 			return res.status(404).send()
 		}
 
-		res.redirect('http://localhost:3000/api/user/dashboard')
+		// console.log('del req->', req.url, req.baseUrl, req.originalUrl)
+		// console.log('del req->2', req.headers, req.query)
+		res.redirect(req.headers.referer)
 	} catch (error) {
 		res.status(500).send()
 	}

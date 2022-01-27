@@ -8,6 +8,10 @@ router.get('/about', (req, res) => {
 	res.render('AboutPage/about')
 })
 
+router.get('/contributers', (req, res) => {
+	res.render('Contributer/Contributer')
+})
+
 router.get('/meeting-details', async (req, res) => {
 	const finalUserMeetings = []
 
@@ -36,7 +40,7 @@ router.get('/meeting-details', async (req, res) => {
 })
 
 router.post('/attendance/:hostId', async (req, res) => {
-	const { taker, date, time, data, url } = req.body
+	const { taker, dateTime, data, url } = req.body
 	const { hostId } = req.params
 	console.info('GOT ATTENDANCE:\n', req.body, hostId)
 	const attendees = data.split('@').map((attendee) => {
@@ -45,6 +49,20 @@ router.post('/attendance/:hostId', async (req, res) => {
 		}
 	})
 	attendees.pop()
+
+	const datetime = new Date(dateTime)
+
+	const pad = (n) => (n < 10 ? '0' + n : n)
+
+	const date = [
+		datetime.getFullYear(),
+		'-',
+		pad(datetime.getMonth() + 1),
+		'-',
+		pad(datetime.getDate()),
+	].join('')
+
+	const time = [pad(datetime.getHours()), ':', pad(datetime.getMinutes())].join('')
 
 	console.log(attendees)
 

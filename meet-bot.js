@@ -87,8 +87,8 @@ async function meetbot(meetLink, hostId) {
 					document.querySelector('button[aria-label="Show everyone"]').click()
 
 					setTimeout(() => {
-						const divList = document.querySelectorAll('.KV1GEc')
-						const allParticipants = document.querySelectorAll('span[class="ZjFb7c"]')
+						const divList = document.querySelectorAll('.cxdMu')
+						const allParticipants = document.querySelectorAll('span[class="zWGUib"]')
 						const unwantedIndices = []
 						let takerIdx
 
@@ -131,8 +131,7 @@ async function meetbot(meetLink, hostId) {
 						}
 						setForm({ type: 'hidden', name: 'you', value: you })
 						setForm({ type: 'hidden', name: 'taker', value: taker })
-						setForm({ type: 'hidden', name: 'date', value: new Date().toLocaleDateString() })
-						setForm({ type: 'hidden', name: 'time', value: new Date().toLocaleTimeString() })
+						setForm({ type: 'hidden', name: 'dateTime', value: new Date() })
 						setForm({ type: 'hidden', name: 'data', value: c })
 						setForm({ type: 'hidden', name: 'url', value: window.location.href })
 
