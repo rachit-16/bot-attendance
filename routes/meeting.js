@@ -69,7 +69,7 @@ router.get('/', async (req, res) => {
 			return
 		}
 
-		res.render('Dashboard/dashboard', { meetings: userMeetings, username: req.user.username })
+		res.render('Dashboard/Dashboard', { meetings: userMeetings, username: req.user.username })
 	} catch (error) {
 		res.status(500).send(error)
 	}
