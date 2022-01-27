@@ -87,8 +87,8 @@ async function meetbot(meetLink, hostId) {
 					document.querySelector('button[aria-label="Show everyone"]').click()
 
 					setTimeout(() => {
-						const divList = document.querySelectorAll('.KV1GEc')
-						const allParticipants = document.querySelectorAll('span[class="ZjFb7c"]')
+						const divList = document.querySelectorAll('.cxdMu')
+						const allParticipants = document.querySelectorAll('span[class="zWGUib"]')
 						const unwantedIndices = []
 						let takerIdx
 
