@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const router = express.Router()
 
 router.get('/about', (req, res) => {
-	res.render('AboutPage/about')
+	res.render('AboutPage/About')
 })
 
 router.get('/contributers', (req, res) => {
