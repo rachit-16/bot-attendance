@@ -22,14 +22,14 @@ document.getElementById('add-participant-btn').addEventListener('click', functio
 
 	const meetingId = window.location.href.split('/').reverse()[0]
 	const addParticipantForm = document.getElementById('add-participant-form')
-	const url = `http://localhost:3000/api/user/meetings/${meetingId}/addParticipant`
+	const url = `/api/user/meetings/${meetingId}/addParticipant`
 
 	addParticipantForm.addEventListener('submit', (event) => {
 		event.preventDefault()
 		submitFormData(addParticipantForm, url)
 		// const formData = Object.fromEntries(new FormData(addParticipantForm))
 
-		// fetch(`http://localhost:3000/api/user/meetings/${meetingId}/addParticipant`, {
+		// fetch(`/api/user/meetings/${meetingId}/addParticipant`, {
 		// 	method: 'POST',
 		// 	body: JSON.stringify(formData),
 		// 	headers: {

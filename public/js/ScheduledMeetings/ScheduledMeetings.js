@@ -31,7 +31,7 @@ const editMeetingHandler = (event) => {
 	})
 
 	const editForm = document.getElementById('edit-form')
-	const url = `http://localhost:3000/api/user/meetings/edit/${meetingId}`
+	const url = `/api/user/meetings/edit/${meetingId}`
 
 	editForm.addEventListener('submit', (event) => {
 		event.preventDefault()
@@ -48,7 +48,7 @@ const deleteMeetingHandler = (event) => {
 		return
 	}
 
-	fetch(`http://localhost:3000/api/user/meetings/delete/${meetingId}`, {
+	fetch(`/api/user/meetings/delete/${meetingId}`, {
 		method: 'DELETE',
 	})
 		.then((res) => (window.location = res.url))
@@ -65,7 +65,7 @@ addNewMeetingBtn.addEventListener('click', () => {
 	})
 
 	const newMeetingForm = document.getElementById('new-meeting-form')
-	const url = 'http://localhost:3000/api/user/meetings/new'
+	const url = '/api/user/meetings/new'
 
 	newMeetingForm.addEventListener('submit', (event) => {
 		event.preventDefault()
@@ -81,7 +81,7 @@ const searchDashboard = async (event) => {
 		if (!value) {
 			return
 		}
-		window.location = `http://localhost:3000/api/user/meetings?search=${topic}:${value}&scheduled=true`
+		window.location = `/api/user/meetings?search=${topic}:${value}&scheduled=true`
 	}
 }
 
@@ -99,7 +99,7 @@ const getCurrentPage = () => {
 }
 
 const gotoPage = (pageNo, search) => {
-	let url = `http://localhost:3000/api/user/meetings?scheduled=true&limit=${pageLimit}&skip=${
+	let url = `/api/user/meetings?scheduled=true&limit=${pageLimit}&skip=${
 		pageLimit * pageNo
 	}`
 

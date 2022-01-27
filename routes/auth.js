@@ -80,7 +80,7 @@ router.post('/signup', isNotLoggedIn, async (req, res) => {
 				passport.authenticate('local')(req, res, () => {
 					//once the user sign up
 					console.log('signed up!' + JSON.stringify(user))
-					res.redirect('http://localhost:3000/api/user/meetings')
+					res.redirect('/api/user/meetings')
 				})
 			})
 		})

@@ -22,7 +22,7 @@ const submitFormData = (form, url, ...options) => {
 const viewMeetingHandler = (event) => {
 	const meetingRow = event.target.parentElement.parentElement
 	const meetingId = meetingRow.getAttribute('id')
-	fetch(`http://localhost:3000/api/user/meetings/details/${meetingId}`)
+	fetch(`/api/user/meetings/details/${meetingId}`)
 		.then((res) => (window.location = res.url))
 		.catch((error) => console.error(error))
 }
@@ -40,7 +40,7 @@ const editMeetingHandler = (event) => {
 	})
 
 	const editForm = document.getElementById('edit-form')
-	const url = `http://localhost:3000/api/user/meetings/edit/${meetingId}`
+	const url = `/api/user/meetings/edit/${meetingId}`
 
 	editForm.addEventListener('submit', (event) => {
 		event.preventDefault()
@@ -57,7 +57,7 @@ const deleteMeetingHandler = (event) => {
 		return
 	}
 
-	fetch(`http://localhost:3000/api/user/meetings/delete/${meetingId}`, {
+	fetch(`/api/user/meetings/delete/${meetingId}`, {
 		method: 'DELETE',
 	})
 		.then((res) => (window.location = res.url))
@@ -74,7 +74,7 @@ addNewMeetingBtn.addEventListener('click', () => {
 	})
 
 	const newMeetingForm = document.getElementById('new-meeting-form')
-	const url = 'http://localhost:3000/api/user/meetings/new'
+	const url = '/api/user/meetings/new'
 
 	newMeetingForm.addEventListener('submit', (event) => {
 		event.preventDefault()
@@ -87,7 +87,7 @@ const searchDashboard = async (event) => {
 	if (event.keyCode === 13) {
 		const value = event.target.value.toLowerCase()
 		const topic = searchBarTopic.value
-		window.location = `http://localhost:3000/api/user/meetings?search=${topic}:${value}`
+		window.location = `/api/user/meetings?search=${topic}:${value}`
 	}
 }
 
@@ -180,7 +180,7 @@ const getCurrentPage = () => {
 }
 
 const gotoPage = (pageNo, search) => {
-	let url = `http://localhost:3000/api/user/meetings?limit=${pageLimit}&skip=${pageLimit * pageNo}`
+	let url = `/api/user/meetings?limit=${pageLimit}&skip=${pageLimit * pageNo}`
 
 	if (search) {
 		url += `&search=${search}`

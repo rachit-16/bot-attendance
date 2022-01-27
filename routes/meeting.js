@@ -3,6 +3,8 @@ const Meeting = require('../models/meeting')
 
 const router = express.Router()
 
+dotenv.config()
+
 // get all meetings of a user
 // GET /api/user/meetings?search=model_field:value
 // GET /api/user/meetings?limit=10&skip=10
@@ -143,7 +145,7 @@ router.post('/:meetId/addParticipant', async (req, res) => {
 		console.log('added!')
 		console.log('add req->', req.url, req.baseUrl, req.originalUrl)
 		console.log('add req->2', req.headers, req.query)
-		res.redirect(`http://localhost:3000/api/user/meetings/details/${meetId}`)
+		res.redirect(`${process.env.SERVER}/api/user/meetings/details/${meetId}`)
 	} catch (error) {
 		res.status(400).send(error)
 	}
