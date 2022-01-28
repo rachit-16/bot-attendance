@@ -57,6 +57,6 @@ Create a .env file in the root of Directory, with the following variables
     npm run dev
     
 ## Screenshots
- 
-![SS2](https://drive.go![dashboard](https://user-images.githubusercontent.com/58954579/151561696-9ecbeaaf-a00b-4c4b-9a74-a6ddf93f02b5.jpeg)
-ogle.com/file/d/1kxoZUgLH6MuWdJ83OmU-Jt3YwnA_xNkr/view?usp=sharing?raw=true)   
+ ![meetdetails](https://user-images.githubusercontent.com/75481411/151561946-accd42ad-5242-493b-b1bd-19f56846adcf.jpeg)
+ ![dashboard](https://user-images.githubusercontent.com/75481411/151561961-7803f783-0158-4ad0-9dbc-35dc229a8676.jpeg)
+
