@@ -1,17 +1,16 @@
 console.log('bot Went', process.argv)
 
-const dotenv = require('dotenv')
-
-dotenv.config()
-
 let startTime = new Date()
 let endTime = new Date()
-
 
 const puppeteerExtra = require('puppeteer-extra')
 const stealthPlugin = require('puppeteer-extra-plugin-stealth')
 const puppeteer = require('puppeteer')
+const dotenv = require('dotenv')
+dotenv.config()
+
 const SERVER = process.env.SERVER
+
 
 async function meetbot(meetLink, hostId) {
 	try {
@@ -30,12 +29,12 @@ async function meetbot(meetLink, hostId) {
 		await page.goto('https://accounts.google.com/signin/v2/identifier')
 		await page.type('[type="email"]', process.env.gmailUsername)
 		await page.click('#identifierNext')
-		await page.waitForTimeout(5000)
+		await page.waitForTimeout(10000)
 
 		await page.type('[type="password"]', process.env.password)
 		await page.click('#passwordNext')
 
-		await page.waitForTimeout(3000)
+		await page.waitForTimeout(5000)
 
 		const context = browser.defaultBrowserContext()
 		context.overridePermissions(meetLink, [
@@ -82,9 +81,11 @@ async function meetbot(meetLink, hostId) {
 				[{ timeout: 300000 }]
 			)
 			.then(async () => {
-				console.log('in the meeting')
+				console.log('in the meeting');
 
-				await page.evaluate((hostId) => {
+				await page.waitForTimeout(2000)
+
+				await page.evaluate((hostId, SERVER) => {
 					// script to be run in console when entered in the meet
 					let c = ''
 					document.querySelector('button[aria-label="Show everyone"]').click()
@@ -141,10 +142,10 @@ async function meetbot(meetLink, hostId) {
 						document.body.appendChild(form)
 
 						form.submit()
-					}, 3500)
-				}, hostId)
+					}, 15000)
+				}, hostId , SERVER)
 
-				await page.waitForTimeout(8000)
+				await page.waitForTimeout(30000)
 
 				await browser.close()
 
