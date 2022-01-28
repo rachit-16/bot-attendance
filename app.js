@@ -156,12 +156,12 @@ const task = new Task('simple task', async () => {
 
 	CurrentmeetDetails = []
 	console.log('in')
-	console.log('data::', data );
+	// console.log('data::', data );
 
 	data.forEach((element) => {
 		// console.log("data : " + data);
 		const dateTime = new Date(`${element.date}T${element.time}:00`)
-
+		console.log("condition:" , dateTime - new Date());
 		if (dateTime - new Date() < 15 * 60 * 1000 && dateTime - new Date() > 0) {
 			// time & Date comparison
 			CurrentmeetDetails.push({
