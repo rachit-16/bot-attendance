@@ -55,6 +55,7 @@ Create a .env file in the root of Directory, with the following variables
     node app
     or 
     npm run dev
-    ## Screenshots
-![SS1](/screenshots/meetdetails.png?raw=true) 
-![SS2](/screenshots/dashboard.png?raw=true)   
+    
+## Screenshots
+![SS1](https://drive.google.com/file/d/1VwS9U4G00mOfj5H3zPtoypM84cklQKCh/view?usp=sharing?raw=true) 
+![SS2](https://drive.google.com/file/d/1kxoZUgLH6MuWdJ83OmU-Jt3YwnA_xNkr/view?usp=sharing?raw=true)   
