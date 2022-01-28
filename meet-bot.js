@@ -1,14 +1,16 @@
 console.log('bot Went', process.argv)
 
+const dotenv = require('dotenv')
+
+dotenv.config()
+
 let startTime = new Date()
 let endTime = new Date()
 
-dotenv.config()
 
 const puppeteerExtra = require('puppeteer-extra')
 const stealthPlugin = require('puppeteer-extra-plugin-stealth')
 const puppeteer = require('puppeteer')
-const dotenv = require('dotenv')
 const SERVER = process.env.SERVER
 
 async function meetbot(meetLink, hostId) {
