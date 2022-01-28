@@ -156,6 +156,8 @@ const task = new Task('simple task', async () => {
 
 	CurrentmeetDetails = []
 	console.log('in')
+	console.log('data::', data );
+
 	data.forEach((element) => {
 		// console.log("data : " + data);
 		const dateTime = new Date(`${element.date}T${element.time}:00`)
