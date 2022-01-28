@@ -3,12 +3,13 @@ console.log('bot Went', process.argv)
 let startTime = new Date()
 let endTime = new Date()
 
+dotenv.config()
+
 const puppeteerExtra = require('puppeteer-extra')
 const stealthPlugin = require('puppeteer-extra-plugin-stealth')
 const puppeteer = require('puppeteer')
 const dotenv = require('dotenv')
 const SERVER = process.env.SERVER
-dotenv.config()
 
 async function meetbot(meetLink, hostId) {
 	try {
@@ -119,7 +120,7 @@ async function meetbot(meetLink, hostId) {
 
 						const form = document.createElement('FORM')
 						form.setAttribute('method', 'post')
-						form.setAttribute('action', `${SERVER}api/attendance/${hostId}`)
+						form.setAttribute('action', `${SERVER}/api/attendance/${hostId}`)
 						form.setAttribute('target', 'formTarget')
 
 						const setForm = (attr) => {
