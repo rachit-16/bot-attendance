@@ -1,6 +1,7 @@
 const express = require('express')
 const Meeting = require('../models/meeting')
 const mongoose = require('mongoose')
+const moment = require('moment-timezone')
 
 const router = express.Router()
 
@@ -24,9 +25,9 @@ router.get('/meeting-details', async (req, res) => {
 	}
 
 	userMeetings.forEach((element) => {
-		const elementDateTime = new Date(`${element.date}T${element.time}:00`)
+		const elementDateTime = moment(`${element.date}T${element.time}:00+05:30`)
 
-		if (elementDateTime - new Date() > 0) {
+		if (elementDateTime.diff(moment().tz('Asia/Calcutta')) > 0) {
 			finalUserMeetings.push(element)
 		}
 	})

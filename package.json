@@ -24,6 +24,7 @@
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.17.2",
+    "moment-timezone": "^0.5.34",
     "mongoose": "^5.9.18",
     "node-schedule": "^2.1.0",
     "passport": "^0.4.1",

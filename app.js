@@ -6,6 +6,7 @@ const expressLayouts = require('express-ejs-layouts')
 const mongoose = require('mongoose')
 const passport = require('passport')
 const passportLocal = require('passport-local')
+const moment = require('moment-timezone')
 
 const User = require('./models/user')
 const generalRoutes = require('./routes/general')
@@ -91,8 +92,6 @@ const schedule = require('node-schedule')
 
 let CurrentmeetDetails = []
 
-const TimeNow = new Date().getTime()
-
 // Meeting.find({}).then(
 // 	(data)=>{
 
@@ -108,15 +107,15 @@ const TimeNow = new Date().getTime()
 // 	});
 
 const callBotFn = (meetLink, id, hostId) => {
-	console.log('process 1 started at ', new Date().toString())
+	console.log('process 1 started at ', moment().tz('Asia/Calcutta').format())
 
 	CurrentmeetDetails.forEach((element) => {
-		const elementDateTime = new Date(`${element.date}T${element.time}:00`)
+		const elementDateTime = moment(`${element.date}T${element.time}:00+05:30`)
 		// console.log("process 2 started at " , new Date().toString());
 		console.log('element', element)
 		// if (element.id === id) {
-		console.log(elementDateTime)
-		if (elementDateTime - new Date() < 1 * 60 * 1000) {
+		// console.log(elementDateTime)
+		if (elementDateTime.diff(moment().tz('Asia/Calcutta')) < 1 * 60 * 1000) {
 			// remaining time less than 1 min
 			console.log('in child')
 
@@ -159,10 +158,14 @@ const task = new Task('simple task', async () => {
 	// console.log('data::', data );
 
 	data.forEach((element) => {
-		// console.log("data : " + data);
-		const dateTime = new Date(`${element.date}T${element.time}:00`)
-		console.log("condition:" , dateTime - new Date());
-		if (dateTime - new Date() < 15 * 60 * 1000 && dateTime - new Date() > 0) {
+		// console.log('data : ' + data)
+		// const dateTime = new Date(`${element.date}T${element.time}:00.000+05:30`)
+		const dateTime = moment(`${element.date}T${element.time}:00+05:30`)
+		// console.log('dateTime:', dateTime.format())
+		// console.log('new date:', moment().tz('Asia/Calcutta').format())
+		const diff = dateTime.diff(moment().tz('Asia/Calcutta'))
+		// console.log('condition:', diff)
+		if (diff < 15 * 60 * 1000 && diff > 0) {
 			// time & Date comparison
 			CurrentmeetDetails.push({
 				id: `${Math.random() * 1000000}`,
@@ -173,10 +176,10 @@ const task = new Task('simple task', async () => {
 				called: false,
 			})
 
-			console.log('meeting sheduled at: ', dateTime.toString())
+			console.log('meeting sheduled at: ', dateTime.format())
 			console.log('cuurent::: ', CurrentmeetDetails)
-			const min = dateTime.getMinutes()
-			const hr = dateTime.getHours()
+			const min = dateTime.minutes()
+			const hr = dateTime.hours()
 
 			const job = schedule.scheduleJob(`00 ${min} ${hr} * * *`, () => {
 				callBotFn(element.link, element.id, element.host)

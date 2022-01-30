@@ -9,8 +9,7 @@ const puppeteer = require('puppeteer')
 const dotenv = require('dotenv')
 dotenv.config()
 
-const SERVER = process.env.SERVER
-
+const SERVER = process.env.SERVER || 'http://localhost:3000'
 
 async function meetbot(meetLink, hostId) {
 	try {
@@ -18,7 +17,15 @@ async function meetbot(meetLink, hostId) {
 		console.log('hostId', hostId)
 
 		puppeteerExtra.use(stealthPlugin())
-		const browser = await puppeteerExtra.launch({ headless: false })
+		const browser = await puppeteerExtra.launch({
+			headless: false,
+			args: [
+				'--lang=en-US,en',
+				'--no-sandbox',
+				'--disable-setuid-sandbox',
+				'--disable-extensions',
+			],
+		})
 
 		// const contextIncognito = await browser.createIncognitoBrowserContext();
 		// const page = await contextIncognito.newPage();
@@ -81,69 +88,73 @@ async function meetbot(meetLink, hostId) {
 				[{ timeout: 300000 }]
 			)
 			.then(async () => {
-				console.log('in the meeting');
+				console.log('in the meeting')
 
 				await page.waitForTimeout(2000)
 
-				await page.evaluate((hostId, SERVER) => {
-					// script to be run in console when entered in the meet
-					let c = ''
-					document.querySelector('button[aria-label="Show everyone"]').click()
+				await page.evaluate(
+					(hostId, SERVER) => {
+						// script to be run in console when entered in the meet
+						let c = ''
+						document.querySelector('button[aria-label="Show everyone"]').click()
 
-					setTimeout(() => {
-						const divList = document.querySelectorAll('.cxdMu')
-						const allParticipants = document.querySelectorAll('span[class="zWGUib"]')
-						const unwantedIndices = []
-						let takerIdx
+						setTimeout(() => {
+							const divList = document.querySelectorAll('.cxdMu')
+							const allParticipants = document.querySelectorAll('span[class="zWGUib"]')
+							const unwantedIndices = []
+							let takerIdx
 
-						divList.forEach((div, idx) => {
-							if (div.innerText.indexOf('Presentation') !== -1) {
-								unwantedIndices.push(idx)
-							}
+							divList.forEach((div, idx) => {
+								if (div.innerText.indexOf('Presentation') !== -1) {
+									unwantedIndices.push(idx)
+								}
 
-							if (div.innerText.indexOf('host') !== -1) {
-								unwantedIndices.push(idx)
-								takerIdx = idx
-							}
-						})
-
-						const you = allParticipants[0].innerText
-						const taker = allParticipants[takerIdx].innerText
-
-						for (let i = 1; i < allParticipants.length; i++) {
-							if (!unwantedIndices.includes(i)) {
-								let attendee = allParticipants[i].innerText
-								c += attendee + '@'
-							}
-						}
-
-						const iframe = document.createElement('IFRAME')
-						iframe.setAttribute('name', 'formTarget')
-						iframe.setAttribute('style', 'display:none')
-
-						const form = document.createElement('FORM')
-						form.setAttribute('method', 'post')
-						form.setAttribute('action', `${SERVER}/api/attendance/${hostId}`)
-						form.setAttribute('target', 'formTarget')
-
-						const setForm = (attr) => {
-							const input = document.createElement('input')
-							Object.keys(attr).forEach((key) => {
-								input.setAttribute(key, attr[key])
+								if (div.innerText.indexOf('host') !== -1) {
+									unwantedIndices.push(idx)
+									takerIdx = idx
+								}
 							})
-							form.appendChild(input)
-						}
-						setForm({ type: 'hidden', name: 'you', value: you })
-						setForm({ type: 'hidden', name: 'taker', value: taker })
-						setForm({ type: 'hidden', name: 'dateTime', value: new Date() })
-						setForm({ type: 'hidden', name: 'data', value: c })
-						setForm({ type: 'hidden', name: 'url', value: window.location.href })
 
-						document.body.appendChild(form)
+							const you = allParticipants[0].innerText
+							const taker = allParticipants[takerIdx].innerText
 
-						form.submit()
-					}, 15000)
-				}, hostId , SERVER)
+							for (let i = 1; i < allParticipants.length; i++) {
+								if (!unwantedIndices.includes(i)) {
+									let attendee = allParticipants[i].innerText
+									c += attendee + '@'
+								}
+							}
+
+							const iframe = document.createElement('IFRAME')
+							iframe.setAttribute('name', 'formTarget')
+							iframe.setAttribute('style', 'display:none')
+
+							const form = document.createElement('FORM')
+							form.setAttribute('method', 'post')
+							form.setAttribute('action', `${SERVER}/api/attendance/${hostId}`)
+							form.setAttribute('target', 'formTarget')
+
+							const setForm = (attr) => {
+								const input = document.createElement('input')
+								Object.keys(attr).forEach((key) => {
+									input.setAttribute(key, attr[key])
+								})
+								form.appendChild(input)
+							}
+							setForm({ type: 'hidden', name: 'you', value: you })
+							setForm({ type: 'hidden', name: 'taker', value: taker })
+							setForm({ type: 'hidden', name: 'dateTime', value: new Date() })
+							setForm({ type: 'hidden', name: 'data', value: c })
+							setForm({ type: 'hidden', name: 'url', value: window.location.href })
+
+							document.body.appendChild(form)
+
+							form.submit()
+						}, 15000)
+					},
+					hostId,
+					SERVER
+				)
 
 				await page.waitForTimeout(30000)
 

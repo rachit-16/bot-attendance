@@ -1,7 +1,7 @@
 const express = require('express')
 const Bot = require('../models/bot')
 const Meeting = require('../models/meeting')
-
+const moment = require('moment-timezone')
 
 const router = express.Router()
 
@@ -41,9 +41,9 @@ router.get('/', async (req, res) => {
 
 		const finalUserMeetings = []
 		req.user.userBots.forEach((element) => {
-			const elementDateTime = new Date(`${element.date}T${element.time}:00`)
+			const elementDateTime = moment(`${element.date}T${element.time}:00+05:30`)
 
-			if (elementDateTime - new Date() > 0) {
+			if (elementDateTime.diff(moment().tz('Asia/Calcutta')) > 0) {
 				finalUserMeetings.push(element)
 			}
 		})
@@ -139,10 +139,9 @@ router.delete('/deleteAll', async (req, res) => {
 	}
 })
 
-// sheuled meetings 
+// sheuled meetings
 
 router.get('/sheduled', async (req, res) => {
-
 	const finalUserMeetings = []
 
 	let userMeetings
@@ -153,20 +152,20 @@ router.get('/sheduled', async (req, res) => {
 		res.status(500).send(error)
 	}
 
-	userMeetings.forEach(element => {
+	userMeetings.forEach((element) => {
+		const elementDateTime = moment(`${element.date}T${element.time}:00+05:30`)
 
-		const elementDateTime = new Date(`${element.date}T${element.time}:00`)
-
-		if ((elementDateTime - new Date()) > 0) {
+		if (elementDateTime.diff(moment().tz('Asia/Calcutta')) > 0) {
 			finalUserMeetings.push(element)
 		}
-
-	});
-
+	})
 
 	// console.log(userMeetings);
 
-	res.render('ScheduledMeetings/ScheduledMeetings', { username: req.user.username, meetings: finalUserMeetings })
+	res.render('ScheduledMeetings/ScheduledMeetings', {
+		username: req.user.username,
+		meetings: finalUserMeetings,
+	})
 })
 
 module.exports = router

@@ -1,9 +1,8 @@
 const express = require('express')
 const Meeting = require('../models/meeting')
-
+const moment = require('moment-timezone')
 const router = express.Router()
 const dotenv = require('dotenv')
-
 
 dotenv.config()
 
@@ -57,8 +56,8 @@ router.get('/', async (req, res) => {
 
 		if (scheduled == 'true') {
 			userMeetings = userMeetings.filter((element) => {
-				const elementDateTime = new Date(`${element.date}T${element.time}:00`)
-				if (elementDateTime - new Date() > 0) {
+				const elementDateTime = moment(`${element.date}T${element.time}:00+05:30`)
+				if (elementDateTime.diff(moment().tz('Asia/Calcutta')) > 0) {
 					return true
 				}
 			})

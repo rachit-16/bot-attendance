@@ -1,80 +1,112 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
+/>
+<link
+	rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous"
+/>
 <link rel="stylesheet" href="/css/AboutPage/About.css" />
 
 <div>
-    <!-- SIDEBAR -->
+	<!-- SIDEBAR -->
 
-    <%- include("../partials/sidebar.ejs"); %>
+	<%- include("../partials/sidebar.ejs"); %>
 
-        <!-- Contributer -->
+	<!-- Contributer -->
 
-        <div class="about">
+	<div class="about">
+		<h1>Contributers</h1>
+		<br />
 
-            <h1>Contributers</h1>
-            <br>
+		<div class="contributors">
+			<div class="row">
+				<div class="col text-center">
+					<h1><b>Our Mentor</b></h1>
+					<img
+						width="190px"
+						class="rounded-circle"
+						src="https://media-exp1.licdn.com/dms/image/C4E03AQFKoWLTSXaENQ/profile-displayphoto-shrink_400_400/0/1595439290756?e=1648684800&v=beta&t=59KLyza1wx6i0n0-ZiVrkW0V_hSpFkYiTz3GPKklghw"
+						alt=""
+					/>
+					<h4>Simarpreet Singh</h4>
+					<a href="https://github.com/simarpreet7"
+						><i class="bi bi-github" style="font-size: 24px"></i
+					></a>
+					<a href="https://www.linkedin.com/in/simarpreet-singh-4774b9155/"
+						><i class="bi bi-linkedin" style="color: rgb(10, 102, 194); font-size: 24px"></i
+					></a>
+				</div>
+			</div>
 
-            <div class="contributers">
+			<div class="dropdown-divider"></div>
 
-                <div class="row">
-                    <div class="col text-center">
-                        <h1><b>Our Mentor</b></h1>
-                        <img width="190px" class="rounded-circle"
-                            src="https://media-exp1.licdn.com/dms/image/C4E03AQFKoWLTSXaENQ/profile-displayphoto-shrink_400_400/0/1595439290756?e=1648684800&v=beta&t=59KLyza1wx6i0n0-ZiVrkW0V_hSpFkYiTz3GPKklghw"
-                            alt="">
-                        <h4>Simarpreet Singh</h4>
-                        <i class="bi bi-github" style="font-size: 24px;"><a
-                                href="https://github.com/simarpreet7"></a></i>
-                        <i class="bi bi-linkedin" style="color: rgb(10, 102, 194); font-size: 24px;"><a
-                                href="https://www.linkedin.com/in/simarpreet-singh-4774b9155/"></a></i>
-                    </div>
-                </div>
+			<h1 class="text-center"><b>Our Team</b></h1>
 
-                <div class="dropdown-divider"></div>
-
-                <h1 class="text-center"><b>Our Team</b></h1>
-
-                <div class="row">
-                    <div class="col text-center">
-                        <img width="190px" class="rounded-circle"
-                            src="https://media-exp1.licdn.com/dms/image/C4E03AQEXUVIoBDDnQQ/profile-displayphoto-shrink_400_400/0/1610866029509?e=1648684800&v=beta&t=qeG_1zYisdYnT082BOBkzb-g5fc5P0wN0lx5b46dy6I"
-                            alt="">
-                        <h4>Rachit Parwanda</h4>
-                        <i class="bi bi-github" style="font-size: 24px;"><a href="https://github.com/rachit-16"></a></i>
-                        <i class="bi bi-linkedin" style="color: rgb(10, 102, 194); font-size: 24px;"><a
-                                href="https://www.linkedin.com/in/rachit-parwanda-71ab73155/"></a></i>
-                    </div>
-                    <div class="col text-center">
-                        <img width="190px" class="rounded-circle"
-                            src="https://media-exp1.licdn.com/dms/image/C4E03AQGjlGQn_q0LzQ/profile-displayphoto-shrink_400_400/0/1622486742714?e=1648684800&v=beta&t=65SJxN75Z8a3NSqpgkD945lcNosYW_S70m28k5eJxfo"
-                            alt="">
-                        <h4>Ritik Gupta</h4>
-                        <i class="bi bi-github" style="font-size: 24px;"><a
-                                href="https://github.com/hritikgupta92"></a></i>
-                        <i class="bi bi-linkedin" style="color: rgb(10, 102, 194); font-size: 24px;"><a
-                                href="https://www.linkedin.com/in/hritikgupta92/"></a></i>
-                    </div>
-                    <div class="col text-center">
-                        <img width="190px" class="rounded-circle"
-                            src="https://media-exp1.licdn.com/dms/image/C4E03AQH6BTlZEsWTjA/profile-displayphoto-shrink_400_400/0/1636144028114?e=1648684800&v=beta&t=1O0ByLE7bt_mR2crze_EKOkhnhIqDUrALj45Q3-8LRs"
-                            alt="">
-                        <h4>Anuj Pawar</h4>
-                        <i class="bi bi-github" style="font-size: 24px;"><a
-                                href="https://github.com/anujpawar13"></a></i>
-                        <i class="bi bi-linkedin" style="color: rgb(10, 102, 194); font-size: 24px;"><a
-                                href="https://www.linkedin.com/in/anujpawar/"></a></i>
-                    </div>
-                    <div class="col text-center">
-                        <img width="190px" class="rounded-circle"
-                            src="https://media-exp1.licdn.com/dms/image/C4E03AQEVVsVPhBsFJw/profile-displayphoto-shrink_400_400/0/1638601578463?e=1648684800&v=beta&t=3N-Nj87ejTKecx8hhlpIATGJO9Z6rTO1ZFcZiQAQFlM"
-                            alt="">
-                        <h4>Abhinav Aggrawal</h4>
-                        <i class="bi bi-github" style="font-size: 24px;"><a href="https://github.com/qw-erty"></a></i>
-                        <i class="bi bi-linkedin" style="color: rgb(10, 102, 194); font-size: 24px;"><a
-                                href="https://www.linkedin.com/in/abhinav-aggrawal-aa97b6201/"></a></i>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+			<div class="row">
+				<div class="col text-center">
+					<img
+						width="190px"
+						class="rounded-circle"
+						src="https://media-exp1.licdn.com/dms/image/C4E03AQEXUVIoBDDnQQ/profile-displayphoto-shrink_400_400/0/1610866029509?e=1648684800&v=beta&t=qeG_1zYisdYnT082BOBkzb-g5fc5P0wN0lx5b46dy6I"
+						alt=""
+					/>
+					<h4>Rachit Parwanda</h4>
+					<a href="https://github.com/rachit-16"
+						><i class="bi bi-github" style="font-size: 24px"></i
+					></a>
+					<a href="https://www.linkedin.com/in/rachit-parwanda-71ab73155/"
+						><i class="bi bi-linkedin" style="color: rgb(10, 102, 194); font-size: 24px"></i
+					></a>
+				</div>
+				<div class="col text-center">
+					<img
+						width="190px"
+						class="rounded-circle"
+						src="https://media-exp1.licdn.com/dms/image/C4E03AQGjlGQn_q0LzQ/profile-displayphoto-shrink_400_400/0/1622486742714?e=1648684800&v=beta&t=65SJxN75Z8a3NSqpgkD945lcNosYW_S70m28k5eJxfo"
+						alt=""
+					/>
+					<h4>Ritik Gupta</h4>
+					<a href="https://github.com/hritikgupta92"
+						><i class="bi bi-github" style="font-size: 24px"></i
+					></a>
+					<a href="https://www.linkedin.com/in/hritikgupta92/"
+						><i class="bi bi-linkedin" style="color: rgb(10, 102, 194); font-size: 24px"></i
+					></a>
+				</div>
+				<div class="col text-center">
+					<img
+						width="190px"
+						class="rounded-circle"
+						src="https://media-exp1.licdn.com/dms/image/C4E03AQH6BTlZEsWTjA/profile-displayphoto-shrink_400_400/0/1636144028114?e=1648684800&v=beta&t=1O0ByLE7bt_mR2crze_EKOkhnhIqDUrALj45Q3-8LRs"
+						alt=""
+					/>
+					<h4>Anuj Pawar</h4>
+					<a href="https://github.com/anujpawar13"
+						><i class="bi bi-github" style="font-size: 24px"></i
+					></a>
+					<a href="https://www.linkedin.com/in/anujpawar/"
+						><i class="bi bi-linkedin" style="color: rgb(10, 102, 194); font-size: 24px"></i
+					></a>
+				</div>
+				<div class="col text-center">
+					<img
+						width="190px"
+						class="rounded-circle"
+						src="https://media-exp1.licdn.com/dms/image/C4E03AQEVVsVPhBsFJw/profile-displayphoto-shrink_400_400/0/1638601578463?e=1648684800&v=beta&t=3N-Nj87ejTKecx8hhlpIATGJO9Z6rTO1ZFcZiQAQFlM"
+						alt=""
+					/>
+					<h4>Abhinav Aggrawal</h4>
+					<a href="https://github.com/qw-erty"
+						><i class="bi bi-github" style="font-size: 24px"></i
+					></a>
+					<a href="https://www.linkedin.com/in/abhinav-aggrawal-aa97b6201/"
+						><i class="bi bi-linkedin" style="color: rgb(10, 102, 194); font-size: 24px"></i
+					></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
